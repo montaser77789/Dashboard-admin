@@ -11,6 +11,7 @@ import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import HomePage from "../pages";
 import Coursesuser from "../components/Coursesuser";
+import Allcourses from "../pages/Allcourses";
 
 const isLoggedIn = true;
 const userData: { email: string } | null = isLoggedIn
@@ -58,8 +59,10 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-          <Route
-          path="viewcorseuser"
+         <Route path="viewcorseuser">
+
+        <Route
+          path={":userId"}
           element={
             <ProtectedRoute
               isAllowed={isLoggedIn}
@@ -67,6 +70,19 @@ const router = createBrowserRouter(
               data={userData}
             >
               <Coursesuser />
+            </ProtectedRoute>
+          }
+        />
+         </Route>
+         <Route
+          path="allcourses"
+          element={
+            <ProtectedRoute
+              isAllowed={isLoggedIn}
+              redirectPath="/login"
+              data={userData}
+            >
+              <Allcourses />
             </ProtectedRoute>
           }
         />

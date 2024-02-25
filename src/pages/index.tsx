@@ -1,18 +1,16 @@
-import { useState, useEffect } from "react";
-import axioInstance from "../components/config/config.instance";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { Iusers } from "../interfaces";
 import Button from "../components/ui/Button";
 import { NavLink } from "react-router-dom";
-export default function HomePage() {
-  const [products, setProducts] = useState([]);
+import UseAuthenticatedQuery from "../hooks/useAuthenticatedQuery";
 
-  useEffect(() => {
-    axioInstance.get("teacher/getAllUser").then((response) => {
-      setProducts(response.data);
-    });
-  }, []);
-  console.log(products);
+export default function HomePage() {
+  const { data, isLoading } = UseAuthenticatedQuery({
+    queryKey: ["user"],
+    url: "student/getAllUser",
+  });
+
+  if (isLoading) return <h3>loading...</h3>;
 
   return (
     <table className="min-w-full divide-y divide-gray-200">
@@ -36,7 +34,7 @@ export default function HomePage() {
         </tr>
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
-        {products.map((user: Iusers, index) => (
+        {data?.map((user: Iusers, index: number) => (
           <tr
             key={user._id}
             className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
@@ -47,7 +45,7 @@ export default function HomePage() {
               {user.UniversityName}
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
-              <NavLink to="/viewcorseuser">
+              <NavLink to={`/viewcorseuser/${user._id}`}>
                 <Button size={"sm"}>View Courses</Button>
               </NavLink>
             </td>
