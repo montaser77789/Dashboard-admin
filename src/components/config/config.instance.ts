@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios from "axios";
 
 const axioInstance = axios.create({
-    baseURL: "https://cource-project-jro9.onrender.com/app/",
-    timeout: 3000,
-  });
-  export default axioInstance ;
+  baseURL: "http://localhost:3000/app/",
+  timeout: 3000,
+});
+export default axioInstance;

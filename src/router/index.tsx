@@ -5,44 +5,41 @@ import {
 } from "react-router-dom";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import PageNotFound from "../pages/PageNotFound";
-import RootLayout from "../pages/Layout";
+import RootLayout from "../Layout/Layout";
 import ErrorHandler from "../components/errors/ErrorHandler";
 import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import HomePage from "../pages";
 import Coursesuser from "../components/Coursesuser";
 import Allcourses from "../pages/Allcourses";
+import CookiesServices from "../Cookes";
+import DashboardLayout from "../Layout/DashboardLayout";
+import CourseDeateailse from "../pages/courseDeateailse";
 
-const isLoggedIn = true;
-const userData: { email: string } | null = isLoggedIn
-  ? { email: "email@gmail.com" }
-  : null;
+const token = CookiesServices.get("access_token");
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       {/* Root Layout */}
       <Route path="/" element={<RootLayout />} errorElement={<ErrorHandler />}>
-        <Route
+        {/* <Route
           index
           element={
             <ProtectedRoute
-              isAllowed={isLoggedIn}
+              isAllowed={token}
               redirectPath="/login"
-              data={userData}
+              data={token}
             >
               <HomePage />
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="login"
           element={
-            <ProtectedRoute
-              isAllowed={!isLoggedIn}
-              redirectPath="/"
-              data={userData}
-            >
+            <ProtectedRoute isAllowed={!token} redirectPath="/" data={token}>
               <LoginPage />
             </ProtectedRoute>
           }
@@ -51,36 +48,71 @@ const router = createBrowserRouter(
           path="register"
           element={
             <ProtectedRoute
-              isAllowed={!isLoggedIn}
+              isAllowed={!token}
               redirectPath="/login"
-              data={userData}
+              data={token}
             >
               <RegisterPage />
             </ProtectedRoute>
           }
         />
-         <Route path="viewcorseuser">
+        <Route path="viewcorseuser">
+          <Route
+            path={":userId"}
+            element={
+              <ProtectedRoute
+                isAllowed={token}
+                redirectPath="/login"
+                data={token}
+              >
+                <Coursesuser />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+      </Route>
 
-        <Route
-          path={":userId"}
+      <Route
+        path="/dashboard"
+        element={<DashboardLayout  />}
+        errorElement={<ErrorHandler />}
+      >
+
+           <Route
+          index
           element={
             <ProtectedRoute
-              isAllowed={isLoggedIn}
+              isAllowed={token}
               redirectPath="/login"
-              data={userData}
+              data={token}
             >
-              <Coursesuser />
+              <HomePage />
             </ProtectedRoute>
           }
         />
-         </Route>
-         <Route
+
+         <Route path="viwdeatels">
+          <Route
+            path={":courseId"}
+            element={
+              <ProtectedRoute
+                isAllowed={token}
+                redirectPath="/login"
+                data={token}
+              >
+                <CourseDeateailse />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+     
+        <Route
           path="allcourses"
           element={
             <ProtectedRoute
-              isAllowed={isLoggedIn}
+              isAllowed={token}
               redirectPath="/login"
-              data={userData}
+              data={token}
             >
               <Allcourses />
             </ProtectedRoute>
