@@ -1,9 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  Fragment,
- useState,
-} from "react";
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -17,9 +12,15 @@ import { BsTrash } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { successmsg } from "../toastifiy";
 import { validationModel } from "../validation/ValidationError";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import Skeleton from "../components/Skellton";
 
 const Allcourses = () => {
-  
+  const chackedSubj = useSelector(
+    (state: RootState) => state.checkedsubj.valueSubjFilter
+  );
+  console.log(chackedSubj);
 
   const [refrchUsers, setrefrchUsers] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -95,14 +96,28 @@ const Allcourses = () => {
   };
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    console.log(createCourse);
-
     e.preventDefault();
+    const errorMessage = validationModel({
+      title: createCourse.title,
+      price: createCourse.price,
+      subject: createCourse.subject,
+      level: createCourse.level,
+    });
+    console.log(errorMessage);
+
+    const haserrormesage =
+      Object.values(errorMessage).some((value) => value == "") &&
+      Object.values(errorMessage).every((value) => value == "");
+    console.log(!haserrormesage);
+
+    if (!haserrormesage) {
+      seterrorMessage(errorMessage);
+      return;
+    }
     try {
       setisloadingCreate(true);
-      const res = await axioInstance.post(
+      await axioInstance.post(
         "course/createcourse",
-
         {
           subject,
           title,
@@ -113,13 +128,13 @@ const Allcourses = () => {
           price,
           role: "Teacher",
         },
-
         {
           headers: {
             Authorization: token,
           },
         }
       );
+      successmsg({ msg: "Course added successfully!" });
       setCreateCourse({
         title: "",
         price: "",
@@ -129,7 +144,6 @@ const Allcourses = () => {
         level: "",
         departement: "",
       });
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {
@@ -154,8 +168,6 @@ const Allcourses = () => {
     subject: subjectUpdate,
   } = editCourse;
   const onSubmitHandlerUpdata = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("Done");
-
     e.preventDefault();
 
     const errorMessage = validationModel({
@@ -229,7 +241,21 @@ const Allcourses = () => {
     },
   });
 
-  if (isLoadingData) return <h3>Loading...</h3>;
+  const [SearchCourses, setSearchCourses] = useState<Icourses[]>([]);
+  useEffect(() => {
+    if (data) {
+      if (chackedSubj.length === 0) {
+        setSearchCourses(data);
+      } else {
+        const filteredCoursesSubj = data.filter((course: Icourses) =>
+          chackedSubj.includes(course.subject)
+        );
+        setSearchCourses(filteredCoursesSubj);
+      }
+    }
+  }, [data, chackedSubj]);
+
+  if (isLoadingData) return <Skeleton />;
   return (
     <div className="w-full flex flex-col">
       <div className="p-2 ">
@@ -240,7 +266,6 @@ const Allcourses = () => {
         >
           Create New Course
         </Button>
-
       </div>
       <div>
         <table className="w-full divide-y divide-gray-200">
@@ -276,8 +301,8 @@ const Allcourses = () => {
             </tr>
           </thead>
 
-          {data?.length !== 0 ? (
-            data?.map((corse: Icourses) => (
+          {SearchCourses?.length !== 0 ? (
+            SearchCourses?.map((corse: Icourses) => (
               <Fragment key={corse._id}>
                 <tbody
                   className="bg-white divide-y divide-gray-200"
@@ -285,7 +310,7 @@ const Allcourses = () => {
                 >
                   <tr className={"bg-gray-50"}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.title}
+                      {corse.title.slice(0, 7)}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {corse.price}
@@ -294,20 +319,20 @@ const Allcourses = () => {
                       {corse.subject}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.UniversityName}
+                      {corse.UniversityName.slice(0, 7)}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.collegeName}
+                      {corse.collegeName.slice(0, 7)}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.level}
+                      {corse.level}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.departement}
+                      {corse.departement.slice(0, 7)}...
                     </td>
                     <td>
                       <Button size={"sm"} onClick={() => {}}>
-                        <NavLink to={`/dashboard/viwdeatels/${corse._id}`}>
+                        <NavLink to={`/viwdeatels/${corse._id}`}>
                           DEATEALS
                         </NavLink>
                       </Button>
@@ -340,7 +365,16 @@ const Allcourses = () => {
               </Fragment>
             ))
           ) : (
-            <h2>No Courses Yet</h2>
+            <tbody>
+              <tr>
+                <td
+                  colSpan={9}
+                  className="text-3xl font-bold mb-4 px-6 py-4 whitespace-nowrap text-center"
+                >
+                  No Courses Yet!
+                </td>
+              </tr>
+            </tbody>
           )}
         </table>
       </div>
@@ -357,7 +391,7 @@ const Allcourses = () => {
             />
           </label>
 
-          {/* <InputErrormesg msg={errorMessage.title} /> */}
+          <InputErrormesg msg={errorMessage.title} />
           <label>
             price:
             <Input
@@ -366,7 +400,7 @@ const Allcourses = () => {
               value={createCourse.price}
             />
           </label>
-          {/* <InputErrormesg msg={errorMessage.level} /> */}
+          <InputErrormesg msg={errorMessage.price} />
           <label>
             subject:
             <Input
@@ -375,7 +409,7 @@ const Allcourses = () => {
               value={createCourse.subject}
             />
           </label>
-          {/* <InputErrormesg msg={errorMessage.price} /> */}
+          <InputErrormesg msg={errorMessage.subject} />
 
           <label>
             collegeName:
@@ -403,7 +437,7 @@ const Allcourses = () => {
               value={createCourse.level}
             />
           </label>
-          {/* <InputErrormesg msg={errorMessage.subject} /> */}
+          <InputErrormesg msg={errorMessage.level} />
           <label>
             departement:
             <Input

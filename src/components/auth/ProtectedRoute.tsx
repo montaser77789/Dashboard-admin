@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
 interface IProps {
-  isAllowed: boolean;
+  isAllowed: boolean ;
   redirectPath: string;
   children: ReactNode;
   data?: unknown;

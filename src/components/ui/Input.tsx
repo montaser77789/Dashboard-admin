@@ -13,4 +13,4 @@ const Input = forwardRef( ({ ...rest }: IProps,ref:Ref<HTMLInputElement>) => {
 
 });
 
-export default Input;
+export default Input ;

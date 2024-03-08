@@ -1,3 +1,4 @@
+
 interface Ipropse{
     msg?:string 
 }

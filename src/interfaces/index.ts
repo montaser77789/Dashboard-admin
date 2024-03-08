@@ -23,7 +23,7 @@ export interface IerrorResponse {
 export interface IloginInput {
   placeholder: string;
   name: "email" | "password";
-  type: string;
+    type: string;
   validation: {
     required?: string;
     minLength?: number;
@@ -39,6 +39,8 @@ export interface Iusers {
   courses: string[];
   UniversityName: string;
   CollegesName: string;
+  isBlocked:boolean
+  level:string
 }
 export interface Icourses {
   _id?: string;
@@ -48,8 +50,7 @@ export interface Icourses {
   collegeName: string;
   UniversityName: string;
   level: string;
-  departement:string
-  
+  departement: string;
 
   // videoslist:string[];
 

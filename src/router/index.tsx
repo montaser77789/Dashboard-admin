@@ -10,14 +10,14 @@ import ErrorHandler from "../components/errors/ErrorHandler";
 import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import HomePage from "../pages";
-import Coursesuser from "../components/Coursesuser";
 import Allcourses from "../pages/Allcourses";
-import CookiesServices from "../Cookes";
 import DashboardLayout from "../Layout/DashboardLayout";
 import CourseDeateailse from "../pages/courseDeateailse";
+import AccessStudent from "../pages/AccessStudent";
 
-const token = CookiesServices.get("access_token");
-
+import Cookies from "js-cookie";
+const token = Cookies.get("access_token");
+const isTokenExists = !!token;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,47 +56,13 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route path="viewcorseuser">
-          <Route
-            path={":userId"}
-            element={
-              <ProtectedRoute
-                isAllowed={token}
-                redirectPath="/login"
-                data={token}
-              >
-                <Coursesuser />
-              </ProtectedRoute>
-            }
-          />
-        </Route>
-      </Route>
 
-      <Route
-        path="/dashboard"
-        element={<DashboardLayout  />}
-        errorElement={<ErrorHandler />}
-      >
-
-           <Route
-          index
-          element={
-            <ProtectedRoute
-              isAllowed={token}
-              redirectPath="/login"
-              data={token}
-            >
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
-
-         <Route path="viwdeatels">
+        <Route path="viwdeatels">
           <Route
             path={":courseId"}
             element={
               <ProtectedRoute
-                isAllowed={token}
+                isAllowed={isTokenExists}
                 redirectPath="/login"
                 data={token}
               >
@@ -105,12 +71,31 @@ const router = createBrowserRouter(
             }
           />
         </Route>
-     
+      </Route>
+
+      <Route
+        path="/dashboard"
+        element={<DashboardLayout />}
+        errorElement={<ErrorHandler />}
+      >
+        <Route
+          index
+          element={
+            <ProtectedRoute
+              isAllowed={isTokenExists}
+              redirectPath="/login"
+              data={token}
+            >
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="allcourses"
           element={
             <ProtectedRoute
-              isAllowed={token}
+              isAllowed={isTokenExists}
               redirectPath="/login"
               data={token}
             >
@@ -118,7 +103,18 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="accessstudent"
+          element={
+            <ProtectedRoute
+              isAllowed={isTokenExists}
+              redirectPath="/login"
+              data={token}
+            >
+              <AccessStudent />
+            </ProtectedRoute>
+          }
+        />
       </Route>
 
       {/* Page Not Found */}
