@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
-import { FaBookReader } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { chhakedSubj, chhakedUsers } from "../app/Slices/checkedSubj";
@@ -11,9 +8,6 @@ import { Icourses } from "../interfaces";
 
 const Dashboard = () => {
   const token = Cookies.get("access_token");
-
-  const [showCoursesCheck, setShowCoursesCheck] = useState(false);
-  const [showSubjCheck, setshowSubjCheck] = useState(false);
 
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [selectedSUser, setSelectedUser] = useState<string[]>([]);
@@ -61,143 +55,183 @@ const Dashboard = () => {
       }
     }
   };
-
-  const toggleCoursesCheck = () => {
-    setShowCoursesCheck((prev) => !prev);
-  };
-  const toggleCheckboxes = () => {
-    setshowSubjCheck((prev) => !prev);
+  const logOut = () => {
+    Cookies.remove("access_token");
+    location.reload();
   };
 
   return (
     <>
-      <div className="board min-w-[230px] min-h-screen w-[300px]">
-        {/* <img
-          className="logo w-[200px] h-[200px]  ml-15"
-          src="https://img.freepik.com/free-photo/abstract-glowing-flame-drops-electric-illumination-generative-ai_188544-8092.jpg?w=360&t=st=1709218885~exp=1709219485~hmac=e9352ed08e046cc67ba59c4763122d1cb12ec619b780963a1b0f8cff728e52e1"
-          alt="logo"
-        /> */}
-        <div className="user_parent h-full ml-2 border-r-2 border-indigo-400 p-3">
-          <div className="user-icons flex items-center mt-15">
-            <FaUser className=" mr-3 text-blue-500 text-2xl" />
-            <div
-              className="cursor-pointer  flex items-center justify-between"
-              onClick={() => {
-                toggleCheckboxes();
-              }}
-            >
-              <NavLink to="/dashboard/" className=" text-2xl font-semibold ">
-                Student
-              </NavLink>
+      <div className="dashboard-container min-h-screen screen w-64 bg-white border-r shadow">
+        <div className="px-4 py-6 pos">
+          <span className="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
+            Logo
+          </span>
 
-              <FaAngleDown
-                size={20}
-                className=" bg-indigo-500 ml-2  cursor-pointer"
-                style={{ color: "#fff" }}
-              />
-            </div>
-          </div>
+          <ul className="mt-6 space-y-1">
+            <li>
+              <details className="group [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer items-center justify-between rounded-lg  text-gray-500 hover:bg-indigo-500 hover:text-white">
+                  <span className="text-sm font-medium px-4 py-2  ">
+                    {" "}
+                    <NavLink to="/">Student</NavLink>{" "}
+                  </span>
 
-          {showSubjCheck && (
-            <div className="px-5">
-              <div className=" check-parent ml-70 mt-2 ">
-                <input
-                  name="one"
-                  type="checkbox"
-                  className="check-box mr-2 cursor-pointer transform scale-125"
-                  value="one"
-                  onChange={onChangeHandler}
-                />
-                <label className=" ">One</label>
-              </div>
+                  <span className="shrink-0 transition px-4 py-2 rounded-lg duration-300 group-open:-rotate-180 hover:bg-indigo-800 hover:text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5  "
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </summary>
 
-              <div className="check-parent ml-70 mt-2  ">
-                <input
-                  name="two"
-                  type="checkbox"
-                  className="check-box mr-2 cursor-pointer transform scale-125"
-                  value="two"
-                  onChange={onChangeHandler}
-                />
-                <label className=" ">Two</label>
-              </div>
+                <ul className="mt-2 space-y-1 px-4">
+                  <li>
+                    <div>
+                      <div className="px-5 ">
+                        <div className=" check-parent ml-70 mt-2  flex items-center space-x-1">
+                          <input
+                            name="one"
+                            type="checkbox"
+                            className="check-box mr-2 cursor-pointer transform scale-125"
+                            value="one"
+                            onChange={onChangeHandler}
+                          />
+                          <label className=" ">One</label>
+                        </div>
 
-              <div className="check-parent ml-70 mt-2  ">
-                <input
-                  name="three"
-                  type="checkbox"
-                  className="check-box mr-2 cursor-pointer transform scale-125"
-                  value="three"
-                  onChange={onChangeHandler}
-                />
-                <label className=" ">Three</label>
-              </div>
+                        <div className="check-parent  mt-2  flex items-center space-x-1">
+                          <input
+                            name="two"
+                            type="checkbox"
+                            className="check-box mr-2 cursor-pointer transform scale-125 space-x-1"
+                            value="two"
+                            onChange={onChangeHandler}
+                          />
+                          <label className=" ">Two</label>
+                        </div>
 
-              <div className="check-parent ml-70 mt-2  ">
-                <input
-                  name="four"
-                  type="checkbox"
-                  className="check-box mr-2 cursor-pointer transform scale-125"
-                  value="four"
-                  onChange={onChangeHandler}
-                />
-                <label className=" ">Four</label>
-              </div>
-            </div>
-          )}
+                        <div className="check-parent mt-2  flex items-center space-x-1">
+                          <input
+                            name="three"
+                            type="checkbox"
+                            className="check-box mr-2 cursor-pointer transform scale-125"
+                            value="three"
+                            onChange={onChangeHandler}
+                          />
+                          <label className=" ">Three</label>
+                        </div>
 
-          <div className="user-icons flex items-center  mt-3">
-            <FaBookReader className="mr-3 text-blue-500 text-2xl" />
-            <div
-              className="cursor-pointer  flex items-center justify-between"
-              onClick={() => {
-                toggleCoursesCheck();
-              }}
-            >
+                        <div className="check-parent mt-2  flex items-center space-x-1">
+                          <input
+                            name="four"
+                            type="checkbox"
+                            className="check-box mr-2 cursor-pointer transform scale-125"
+                            value="four"
+                            onChange={onChangeHandler}
+                          />
+                          <label className=" ">Four</label>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+            </li>
+
+            <li>
+              <details className="group [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer items-center justify-between rounded-lg  text-gray-500 hover:bg-indigo-500 hover:text-white">
+                  <span className="text-sm font-medium px-4 py-2  ">
+                    {" "}
+                    <NavLink to="/allcourses">Courses</NavLink>{" "}
+                  </span>
+
+                  <span className="shrink-0 transition px-4 py-2 rounded-lg duration-300 group-open:-rotate-180 hover:bg-indigo-800 hover:text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+
+                <ul className="mt-2 space-y-1 px-4">
+                  <li>
+                    <div className="px-5">
+                      <div className="check-parent ml-70 mt-2">
+                        {subjects?.map((subject: string) => (
+                          <div
+                            key={subject}
+                            className="flex items-center space-x-1"
+                          >
+                            <input
+                              type="checkbox"
+                              className="check-box mr-2 cursor-pointer transform scale-125"
+                              value={subject}
+                              name={subject}
+                              onChange={onChangeHandlerSubj}
+                            />
+                            <label>{subject}</label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </details>
+            </li>
+
+            <li>
               <NavLink
-                to="/dashboard/allcourses"
-                className=" text-2xl font-semibold "
-              >
-                Courses
-              </NavLink>
-              <FaAngleDown
-                size={20}
-                className=" bg-indigo-500 ml-2 cursor-pointer"
-                style={{ color: "#fff" }}
-              />
-            </div>
-          </div>
-
-          {showCoursesCheck && (
-            <div className="px-5">
-              <div className="check-parent ml-70 mt-2">
-                {subjects?.map((subject: string) => (
-                  <div key={subject}>
-                    <input
-                      type="checkbox"
-                      className="check-box mr-2 cursor-pointer transform scale-125"
-                      value={subject}
-                      name={subject}
-                      onChange={onChangeHandlerSubj}
-                    />
-                    <label>{subject}</label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="user-icons flex items-center  mt-3">
-            <FaUser className=" mr-3 text-blue-500 text-2xl" />
-            <div className="cursor-pointer  flex items-center justify-between">
-              <NavLink
-                to="/dashboard/accessstudent"
-                className=" text-2xl font-semibold "
+                to="/accessstudent"
+                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
               >
                 Access
               </NavLink>
-            </div>
-          </div>
+            </li>
+
+            <li>
+              <NavLink
+                to="/addexam"
+                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
+              >
+                Create Exam
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/quize"
+                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
+              >
+                Quize
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul className="mt-6 space-y-1 px-4 ">
+            <li className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white">
+              <NavLink to="/login" onClick={logOut}>
+                Logout
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </div>
     </>

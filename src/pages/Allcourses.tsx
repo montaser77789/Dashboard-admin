@@ -257,7 +257,7 @@ const Allcourses = () => {
 
   if (isLoadingData) return <Skeleton />;
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col pt-2">
       <div className="p-2 ">
         <Button
           onClick={() => {
@@ -267,35 +267,36 @@ const Allcourses = () => {
           Create New Course
         </Button>
       </div>
-      <div>
-        <table className="w-full divide-y divide-gray-200">
-          <thead>
+
+      <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+          <thead className="ltr:text-left rtl:text-right">
             <tr>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
                 title
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 price
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 subject
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 collegeName
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 UniversityName
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Level
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 departement
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 deateals
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Actions
               </th>
             </tr>
@@ -304,31 +305,28 @@ const Allcourses = () => {
           {SearchCourses?.length !== 0 ? (
             SearchCourses?.map((corse: Icourses) => (
               <Fragment key={corse._id}>
-                <tbody
-                  className="bg-white divide-y divide-gray-200"
-                  key={corse._id}
-                >
-                  <tr className={"bg-gray-50"}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.title.slice(0, 7)}...
+                <tbody className="divide-y divide-gray-200" key={corse._id}>
+                  <tr className="bg-gray-50">
+                    <td className="whitespace-nowrap w-[200px] px-4 py-2 font-medium text-gray-900   text-ellipsis	">
+                      {corse.title?.slice(0, 7)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {corse.price}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.subject}
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {corse?.subject}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.UniversityName.slice(0, 7)}...
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {corse?.UniversityName?.slice(0, 7)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.collegeName.slice(0, 7)}...
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {corse.collegeName?.slice(0, 7)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.level}...
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {corse.level}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {corse.departement.slice(0, 7)}...
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {corse.departement?.slice(0, 7)}
                     </td>
                     <td>
                       <Button size={"sm"} onClick={() => {}}>
@@ -337,7 +335,7 @@ const Allcourses = () => {
                         </NavLink>
                       </Button>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       <div className="flex space-x-2">
                         <Button
                           onClick={() => {

@@ -47,6 +47,8 @@ const LoginPage = () => {
         }, 2000);
       }
     } catch (error) {
+      console.log(error);
+      
       const { response } = error as { response: { data: string } };
       errormsg({ msg: `${response?.data}` });
     } finally {

@@ -44,6 +44,7 @@ export interface Iusers {
 }
 export interface Icourses {
   _id?: string;
+  id?:string;
   title: string;
   price: string;
   subject: string;

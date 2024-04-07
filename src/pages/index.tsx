@@ -10,12 +10,15 @@ import { successmsg } from "../toastifiy";
 import Skeleton from "../components/Skellton";
 import UseAuthenticatedQuery from "../hooks/useAuthenticatedQuery";
 import Cookies from "js-cookie";
+import { NavLink } from "react-router-dom";
 
 export default function HomePage() {
   const [userSearchValue, setUserSearchValue] = useState("");
   const [refrchPage, setrefrchPagee] = useState(0);
 
   const [searchUser, setSearchUser] = useState<Iusers[]>([]);
+  console.log(searchUser);
+
   const token = Cookies.get("access_token");
 
   const chackedUser = useSelector(
@@ -82,7 +85,7 @@ export default function HomePage() {
   if (isLoadingData) return <Skeleton />;
 
   return (
-    <div className="w-full  divide-gray-200">
+    <div className="w-full  divide-gray-200 pt-2">
       <div className="w-[50%] mb-2">
         <label>
           Search student
@@ -94,61 +97,81 @@ export default function HomePage() {
           />
         </label>
       </div>
-      <table className="w-full divide-gray-200">
-        <thead>
-          <tr>
-            <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Name
-            </th>
-            <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Mobile
-            </th>
-            <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Level
-            </th>
-            <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {searchUser?.map((user: Iusers, index: number) => (
-            <tr
-              key={user._id}
-              className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
-            >
-              <td className="px-6 py-4 whitespace-nowrap">{`${user.FirstName.toLocaleLowerCase()} ${user.LastName.toLocaleLowerCase()}`}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{user.mobile}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{user.level}</td>
-
-              <td className="px-6 py-4 whitespace-nowrap">
-                {!user.isBlocked && (
-                  <Button
-                    variant={"danger"}
-                    size={"sm"}
-                    onClick={() => {
-                      BlockedStudent(user._id);
-                    }}
-                  >
-                    Block
-                  </Button>
-                )}
-                {user.isBlocked && (
-                  <Button
-                    variant={"cancel"}
-                    size={"sm"}
-                    onClick={() => {
-                      unBlockedStudent(user._id);
-                    }}
-                  >
-                    unBlock
-                  </Button>
-                )}
-              </td>
+      <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+          <thead className="ltr:text-left rtl:text-right">
+            <tr>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                {" "}
+                Name
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                {" "}
+                Mobile
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                {" "}
+                Level
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                {" "}
+                Actions
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                {" "}
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {searchUser?.map((user: Iusers, index: number) => (
+              <tr
+                key={user._id}
+                className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
+              >
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{`${user.FirstName.toLocaleLowerCase()} ${user.LastName.toLocaleLowerCase()}`}</td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {user.mobile}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {user.level}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <Button size={"sm"}>
+                    <NavLink to={`/viewcorseuser/${user._id}`}>
+                      View Courses
+                    </NavLink>
+                  </Button>
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {!user.isBlocked && (
+                    <Button
+                      variant={"danger"}
+                      size={"sm"}
+                      onClick={() => {
+                        BlockedStudent(user._id);
+                      }}
+                    >
+                      Block
+                    </Button>
+                  )}
+                  {user.isBlocked && (
+                    <Button
+                      variant={"cancel"}
+                      size={"sm"}
+                      onClick={() => {
+                        unBlockedStudent(user._id);
+                      }}
+                    >
+                      unBlock
+                    </Button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
