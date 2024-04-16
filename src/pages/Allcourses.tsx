@@ -15,6 +15,8 @@ import { validationModel } from "../validation/ValidationError";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import Skeleton from "../components/Skellton";
+import Select from "react-select";
+
 
 const Allcourses = () => {
   const chackedSubj = useSelector(
@@ -240,6 +242,7 @@ const Allcourses = () => {
       },
     },
   });
+  console.log(data);
 
   const [SearchCourses, setSearchCourses] = useState<Icourses[]>([]);
   useEffect(() => {
@@ -254,8 +257,16 @@ const Allcourses = () => {
       }
     }
   }, [data, chackedSubj]);
+  const [inputValue, setInputValue] = useState({
+    roles: "",
+    
+  });
+  const options = [
+    { value: "teacher", label: "teacher" },
+    { value: "doctor", label: "doctor" },
+  ];
 
-  if (isLoadingData) return <Skeleton />;
+  <Skeleton />;
   return (
     <div className="w-full flex flex-col pt-2">
       <div className="p-2 ">
@@ -269,116 +280,143 @@ const Allcourses = () => {
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
-                title
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                price
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                subject
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                collegeName
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                UniversityName
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Level
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                departement
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                deateals
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Actions
-              </th>
-            </tr>
-          </thead>
-
-          {SearchCourses?.length !== 0 ? (
-            SearchCourses?.map((corse: Icourses) => (
-              <Fragment key={corse._id}>
-                <tbody className="divide-y divide-gray-200" key={corse._id}>
-                  <tr className="bg-gray-50">
-                    <td className="whitespace-nowrap w-[200px] px-4 py-2 font-medium text-gray-900   text-ellipsis	">
-                      {corse.title?.slice(0, 7)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {corse.price}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {corse?.subject}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {corse?.UniversityName?.slice(0, 7)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {corse.collegeName?.slice(0, 7)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {corse.level}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {corse.departement?.slice(0, 7)}
-                    </td>
-                    <td>
-                      <Button size={"sm"} onClick={() => {}}>
-                        <NavLink to={`/viwdeatels/${corse._id}`}>
-                          DEATEALS
-                        </NavLink>
-                      </Button>
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      <div className="flex space-x-2">
-                        <Button
-                          onClick={() => {
-                            setisOpenDelete(true);
-                            setCurrentCourseId(corse._id);
-                          }}
-                          size={"sm"}
-                          variant={"danger"}
-                        >
-                          <BsTrash size={17} className="mr-1" />
-                        </Button>
-                        <Button
-                          className="mr-1"
-                          size={"sm"}
-                          onClick={() => {
-                            openModalUpdate(corse);
-                          }}
-                        >
-                          <CiEdit size={17} />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </Fragment>
-            ))
-          ) : (
-            <tbody>
-              <tr>
-                <td
-                  colSpan={9}
-                  className="text-3xl font-bold mb-4 px-6 py-4 whitespace-nowrap text-center"
-                >
-                  No Courses Yet!
+  {isLoadingData ? (
+    <Skeleton />
+  ) : (
+    <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+      <thead className="ltr:text-left rtl:text-right">
+        <tr>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
+            title
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            price
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            subject
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            collegeName
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            UniversityName
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            Level
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            departement
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            deateals
+          </th>
+          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-200">
+        {SearchCourses?.length !== 0 ? (
+          SearchCourses.map((course: Icourses) => (
+            <Fragment key={course._id}>
+              <tr className="bg-gray-50">
+                <td className="whitespace-nowrap w-[200px] px-4 py-2 font-medium text-gray-900 text-ellipsis">
+                  {course.title?.slice(0, 20)}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {course.price}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {course.subject}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {course.UniversityName?.slice(0, 20)}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {course.collegeName?.slice(0,20)}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {course.level}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {course.departement?.slice(0, 20)}
+                </td>
+                <td>
+                  <Button size={"sm"} onClick={() => {}}>
+                    <NavLink to={`/viwdeatels/${course._id}`}>
+                      DEATEALS
+                    </NavLink>
+                  </Button>
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <div className="flex space-x-2">
+                    <Button
+                      onClick={() => {
+                        setisOpenDelete(true);
+                        setCurrentCourseId(course._id);
+                      }}
+                      size={"sm"}
+                      variant={"danger"}
+                    >
+                      <BsTrash size={17} className="mr-1" />
+                    </Button>
+                    <Button
+                      className="mr-1"
+                      size={"sm"}
+                      onClick={() => {
+                        openModalUpdate(course);
+                      }}
+                    >
+                      <CiEdit size={17} />
+                    </Button>
+                  </div>
                 </td>
               </tr>
-            </tbody>
-          )}
-        </table>
-      </div>
+            </Fragment>
+          ))
+        ) : (
+          <tr>
+            <td
+              colSpan={9}
+              className="text-3xl font-bold mb-4 px-6 py-4 whitespace-nowrap text-center"
+            >
+              No Courses Yet!
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  )}
+</div>
+
 
       {/* Create */}
-      <Modal isopen={isOpen} closeModal={closeModal} title="Create New Coure">
+      <Modal isopen={isOpen} closeModal={closeModal} title="Create New Cousre">
+      <div className="space-y-1 w-full">
+              <label className="font-semibold">Type:</label>
+
+              <Select
+              
+                onChange={(e) => {
+                  const value = e ? e.value : "";
+                  setInputValue({ ...inputValue ,roles: value});
+                  
+                }}
+                options={options}
+                className="basic-single  "
+                classNamePrefix="select"
+                name="roles"
+              />
+              <div
+                style={{
+                  color: "hsl(0, 0%, 40%)",
+                  display: "inline-block",
+                  fontSize: 12,
+                  fontStyle: "italic",
+                  marginTop: "1em",
+                }}
+              ></div>
+            </div>
         <form onSubmit={onSubmitHandler} className="space-y-1">
           <label>
             Title:
@@ -409,23 +447,24 @@ const Allcourses = () => {
           </label>
           <InputErrormesg msg={errorMessage.subject} />
 
-          <label>
+    {  inputValue.roles === "doctor"   &&  <label>
             collegeName:
             <Input
               name="collegeName"
               onChange={inputHandelers}
               value={createCourse.collegeName}
             />
-          </label>
+          </label>}
+
           {/* <InputErrormesg msg={errorMessage.subject} /> */}
-          <label>
+          {  inputValue.roles === "doctor" &&    <label>
             UniversityName:
             <Input
               name="UniversityName"
               onChange={inputHandelers}
               value={createCourse.UniversityName}
             />
-          </label>
+          </label> }
           {/* <InputErrormesg msg={errorMessage.subject} /> */}
           <label>
             level:
@@ -458,6 +497,11 @@ const Allcourses = () => {
             </Button>
           </div>
         </form>
+
+      
+
+
+   
       </Modal>
       <Modal
         title="Are you sure you want to delete the course?"

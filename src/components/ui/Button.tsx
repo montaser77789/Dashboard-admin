@@ -7,9 +7,9 @@ const buttonVariants = cva(
   variants: {
     variant: {
       // ** FILLED
-      default: "bg-indigo-500 dark:bg-indigo-600 dark:text-white dark:hover:bg-indigo-700",
-      danger: "bg-red-900 dark:bg-red-600 dark:text-white dark:hover:bg-red-700",
-      cancel: "bg-gray-300 text-gray-700 dark:bg-[#f5f5fa]dark:text-dark hover:bg-gray-400 dark:hover:bg-gray-300",
+      default: "bg-indigo-500 dark:bg-indigo-600 dark:text-white dark:hover:bg-indigo-700 hover:opacity-80 cursor-pointer",
+      danger: "bg-red-900 dark:bg-red-600 dark:text-white dark:hover:bg-red-700  hover:opacity-80 cursor-pointer",
+      cancel: "bg-gray-300 text-gray-700 dark:bg-[#f5f5fa]dark:text-dark hover:bg-gray-400 dark:hover:bg-gray-300 hover:opacity-80  cursor-pointer",
 
       // ** OUTLINE
       outline:

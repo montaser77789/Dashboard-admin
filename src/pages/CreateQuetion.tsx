@@ -7,6 +7,7 @@ import axioInstance from "../components/config/config.instance";
 import Cookies from "js-cookie";
 import { successmsg } from "../toastifiy";
 import Select from "react-select";
+import InputErrormesg from "../components/ui/Inputerrormessage";
 
 const CreateQuetion = () => {
   const token = Cookies.get("access_token");
@@ -26,6 +27,8 @@ const CreateQuetion = () => {
     mark: 1,
     role: "choice",
   });
+  const [error, setError] = useState('');
+
 
   console.log(inputValue);
 
@@ -36,11 +39,17 @@ const CreateQuetion = () => {
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    setError("");
 
     setInputValue({ ...inputValue, [name]: value });
   };
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const isValid = /^\d+$/.test(String(inputValue.mark));
+    if (!isValid) {
+      setError('Please enter a valid number.');
+      return;
+    }
     try {
       const res = await axioInstance.post(
         `teacher/addquestion/${examId}`,
@@ -92,6 +101,7 @@ const CreateQuetion = () => {
     { value: "answer_4", label: "answer_4" },
   ];
 
+
   return (
     <div className="lg:w-[100%] ">
       <div className="flex justify-between mb-4">
@@ -104,11 +114,9 @@ const CreateQuetion = () => {
               <label className="font-semibold">Type:</label>
 
               <Select
-              
                 onChange={(e) => {
                   const value = e ? e.value : "";
                   setInputValue({ ...inputValue, role: value });
-                  
                 }}
                 options={options}
                 className="basic-single w-[50%]"
@@ -181,7 +189,6 @@ const CreateQuetion = () => {
                   onChange={(e) => {
                     const value = e ? e.value : "";
                     setInputValue({ ...inputValue, correctChoice: value });
-                    
                   }}
                   options={correctChoice}
                   className="basic-single w-[50%]"
@@ -276,11 +283,13 @@ const CreateQuetion = () => {
 
             <div>
               <label className="font-semibold">Mark:</label>
+             
               <Input
                 onChange={onChangeHandler}
                 name="mark"
                 value={inputValue.mark}
               />
+              <InputErrormesg msg={error}/>
             </div>
           </div>
         </div>

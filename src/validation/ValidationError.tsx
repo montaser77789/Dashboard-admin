@@ -22,7 +22,7 @@ export const validationModel = (course: {
   };
   if (
     course.title.length == 0 ||
-    course.title.length < 5 ||
+    course.title.length < 2 ||
     course.title.length > 25
   ) {
     errorMessage.title = "course title must be between 5 and 25   char";

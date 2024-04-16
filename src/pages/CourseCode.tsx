@@ -45,7 +45,7 @@ const CourseCode = () => {
       </thead>
       <tbody className="divide-y divide-gray-200">
       { data?.length != 0 ? data?.map((code: string , index: number) => (
-          <tr>
+          <tr key={code}>
             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
               {index + 1}
             </td>
@@ -82,7 +82,7 @@ const CourseCode = () => {
       <tbody className="divide-y divide-gray-200">
       {   getusedcodesdata?.length !=0 ? getusedcodesdata?.map((code: string , index: number) => (
        
-          <tr>
+          <tr key={code}>
             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
               {index + 1}
             </td>

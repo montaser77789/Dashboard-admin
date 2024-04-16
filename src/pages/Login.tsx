@@ -74,7 +74,7 @@ const LoginPage = () => {
     )
   );
   return (
-    <div className="max-w-md mx-auto">
+    <div className="w-1/3 mt-10 mx-auto">
       <h2 className="text-center mb-4 text-3xl font-semibold">
         Login to get access!
       </h2>

@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import axioInstance from "../components/config/config.instance";
 import Cookies from "js-cookie";
 import { successmsg } from "../toastifiy";
+import { validationExam } from "../validation/ValidationExam";
+import InputErrormesg from "../components/ui/Inputerrormessage";
 
 const AddExam = () => {
   const token = Cookies.get("access_token");
@@ -16,13 +18,18 @@ const AddExam = () => {
     title: "",
     subject: "",
     level: "",
-    department: "",
+    departement: "",
     total_mark: "",
     start: "",
     end: "",
   });
+  const [errorMessage, seterrorMessage] = useState({
+    title: "",
+    totalmark: "",
+    subject: "",
+  });
   console.log(inputValue);
-  
+
   const [examId, setExamId] = useState(0);
   console.log(examId);
 
@@ -33,6 +40,21 @@ const AddExam = () => {
   };
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const errorMessage = validationExam({
+      title: inputValue.title,
+      totalmark: inputValue.total_mark,
+      subject: inputValue.subject,
+    });
+    console.log(errorMessage);
+    const haserrormesage =
+      Object.values(errorMessage).some((value) => value == "") &&
+      Object.values(errorMessage).every((value) => value == "");
+    console.log(!haserrormesage);
+
+    if (!haserrormesage) {
+      seterrorMessage(errorMessage);
+      return;
+    }
 
     try {
       const res = await axioInstance.post("teacher/addexam", inputValue, {
@@ -40,7 +62,6 @@ const AddExam = () => {
           Authorization: token,
         },
       });
-      
 
       setExamId(res.data._id);
       successmsg({ msg: "Created exam" });
@@ -64,6 +85,7 @@ const AddExam = () => {
                 name="title"
                 value={inputValue.title}
               />
+              <InputErrormesg msg={errorMessage.title} />
             </div>
             <div>
               <label className="font-semibold">Exam Subject:</label>
@@ -72,6 +94,7 @@ const AddExam = () => {
                 name="subject"
                 value={inputValue.subject}
               />
+              <InputErrormesg msg={errorMessage.subject} />
             </div>
             <div>
               <label className="font-semibold">Exam Level:</label>
@@ -82,11 +105,11 @@ const AddExam = () => {
               />
             </div>
             <div>
-              <label className="font-semibold">Exam Department:</label>
+              <label className="font-semibold">Exam Departement:</label>
               <Input
                 onChange={onChangeHandler}
-                name="department"
-                value={inputValue.department}
+                name="departement"
+                value={inputValue.departement}
               />
             </div>
           </div>
@@ -98,6 +121,7 @@ const AddExam = () => {
                 name="total_mark"
                 value={inputValue.total_mark}
               />
+              <InputErrormesg msg={errorMessage.totalmark} />
             </div>
             <div>
               <label className="font-semibold">Exam start:</label>
@@ -133,9 +157,9 @@ const AddExam = () => {
         <Button>
           <NavLink
             to={`/createQuetion/${examId}`}
-            className="w-full md:w-auto hover:bg-blue-900"
+            className="w-full md:w-auto hover:bg-blue-900 cursor-pointer"
           >
-            Next
+            Click Here to create questions for this exam !
           </NavLink>
         </Button>
       )}

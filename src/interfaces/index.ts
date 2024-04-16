@@ -57,3 +57,29 @@ export interface Icourses {
 
   photo?: string;
 }
+export interface Ividoe {
+  videoURL: string;
+  description: string;
+  id: string;
+}
+export interface Iexam {
+  title: string;
+  _id: string;
+}
+export interface Iresult {
+  student_name: string;
+  result: string;
+  course: string;
+}
+export interface Iquestion {
+  question: string;
+  _id: string;
+  answer_1: string;
+  answer_2: string;
+  answer_3: string;
+  answer_4: string;
+  correctChoice: string;
+  correctBolean: boolean;
+  mark: number;
+  role: string;
+}

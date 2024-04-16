@@ -2,47 +2,30 @@ import { useParams } from "react-router-dom";
 import UseAuthenticatedQuery from "../hooks/useAuthenticatedQuery";
 import { Icourses } from "../interfaces";
 import { Fragment } from "react/jsx-runtime";
-import Button from "../components/ui/Button";
-import axioInstance from "../components/config/config.instance";
 import Cookies from "js-cookie";
-import { successmsg } from "../toastifiy";
-import { useState } from "react";
 
 const Coursesuser = () => {
   const token = Cookies.get("access_token");
 
   const params = useParams();
   const userId = params.userId;
+  
   console.log(userId);
-  const [refrechData, setRefrechData] = useState(0);
   const { data, isLoading } = UseAuthenticatedQuery({
-    queryKey: [`corseuser${refrechData}`],
+    queryKey: [`getcourse}`],
     url: `course/getcourse/${userId}`,
+    config: {
+      headers: {
+        Authorization: token,
+      },
+    }
   });
   console.log(data);
-  const onDeleteCourse = async (id: string | undefined) => {
-    console.log(userId, id);
 
-    try {
-      const res = await axioInstance.delete(
-        `teacher/deletecourseinstudent/${userId}/${id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log(res);
-      setRefrechData((prev) => (prev = prev + 1));
-      successmsg({ msg: `${res.data}` });
-    } catch (error) {
-      console.log(error);
-    }
-  };
   if (isLoading) return <h3>Loading...</h3>;
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
+    <div className="overflow-x-auto rounded-lg border border-gray-200 w-full" >
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
         <thead className="ltr:text-left rtl:text-right">
           <tr>
@@ -67,9 +50,7 @@ const Coursesuser = () => {
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
               departement
             </th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-              DELETE
-            </th>
+        
           </tr>
         </thead>
 
@@ -79,37 +60,26 @@ const Coursesuser = () => {
               <tbody className="divide-y divide-gray-200" key={corse._id}>
                 <tr className={"bg-gray-50"}>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {corse.title?.slice(0, 7)}...
+                    {corse.title?.slice(0, 20)}
                   </td>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{corse.price}</td>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     {corse.subject}
                   </td>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {corse.UniversityName?.slice(0, 7)}...
+                    {corse.UniversityName?.slice(0, 20)}
                   </td>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {corse.collegeName?.slice(0, 7)}...
+                    {corse.collegeName?.slice(0, 20)}
                   </td>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {corse.level}...
+                    {corse.level}
                   </td>
                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {corse.departement?.slice(0, 7)}...
+                    {corse.departement?.slice(0, 20)}
                   </td>
 
-                  <td>
-                    <Button
-                      variant={"danger"}
-                      className="mr-1"
-                      size={"sm"}
-                      onClick={() => {
-                        onDeleteCourse(corse._id);
-                      }}
-                    >
-                      DELETE COURSE
-                    </Button>
-                  </td>
+           
                 </tr>
               </tbody>
             </Fragment>

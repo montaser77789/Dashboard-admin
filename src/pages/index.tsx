@@ -82,7 +82,6 @@ export default function HomePage() {
       console.log(error);
     }
   };
-  if (isLoadingData) return <Skeleton />;
 
   return (
     <div className="w-full  divide-gray-200 pt-2">
@@ -98,79 +97,83 @@ export default function HomePage() {
         </label>
       </div>
       <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                {" "}
-                Name
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                {" "}
-                Mobile
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                {" "}
-                Level
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                {" "}
-                Actions
-              </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                {" "}
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {searchUser?.map((user: Iusers, index: number) => (
-              <tr
-                key={user._id}
-                className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
-              >
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{`${user.FirstName.toLocaleLowerCase()} ${user.LastName.toLocaleLowerCase()}`}</td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {user.mobile}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {user.level}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  <Button size={"sm"}>
-                    <NavLink to={`/viewcorseuser/${user._id}`}>
-                      View Courses
-                    </NavLink>
-                  </Button>
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {!user.isBlocked && (
-                    <Button
-                      variant={"danger"}
-                      size={"sm"}
-                      onClick={() => {
-                        BlockedStudent(user._id);
-                      }}
-                    >
-                      Block
-                    </Button>
-                  )}
-                  {user.isBlocked && (
-                    <Button
-                      variant={"cancel"}
-                      size={"sm"}
-                      onClick={() => {
-                        unBlockedStudent(user._id);
-                      }}
-                    >
-                      unBlock
-                    </Button>
-                  )}
-                </td>
+        {isLoadingData ? (
+          <Skeleton />
+        ) : (
+          <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+            <thead className="ltr:text-left rtl:text-right">
+              <tr>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {" "}
+                  Name
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {" "}
+                  Mobile
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {" "}
+                  Level
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {" "}
+                  Actions
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {" "}
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {searchUser?.map((user: Iusers, index: number) => (
+                <tr
+                  key={user._id}
+                  className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
+                >
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{`${user.FirstName.toLocaleLowerCase()} ${user.LastName.toLocaleLowerCase()}`}</td>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    {user.mobile}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    {user.level}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    <Button size={"sm"}>
+                      <NavLink to={`/viewcorseuser/${user._id}`}>
+                        View Courses
+                      </NavLink>
+                    </Button>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    {!user.isBlocked && (
+                      <Button
+                        variant={"danger"}
+                        size={"sm"}
+                        onClick={() => {
+                          BlockedStudent(user._id);
+                        }}
+                      >
+                        Block
+                      </Button>
+                    )}
+                    {user.isBlocked && (
+                      <Button
+                        variant={"cancel"}
+                        size={"sm"}
+                        onClick={() => {
+                          unBlockedStudent(user._id);
+                        }}
+                      >
+                        unBlock
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

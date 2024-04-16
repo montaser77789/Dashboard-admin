@@ -8,11 +8,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import axioInstance from "../components/config/config.instance";
 import Cookies from "js-cookie";
 import { successmsg } from "../toastifiy";
-interface Ividoe {
-  videoURL: string;
-  description: string;
-  id: string;
-}
+import { Ividoe } from "../interfaces";
 
 const CourseDeateailse = () => {
   const params = useParams();
@@ -26,8 +22,6 @@ const CourseDeateailse = () => {
   const [idvidoe, setIdVideo] = useState("");
   const [refrchDataVidoe, setRefrchDataVidoe] = useState(0);
   const [couurseCode, setCourseCode] = useState([]);
-  const [videoCode, setVidoeCode] = useState([]);
-
   const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
   const [description, setDescription] = useState({
     description: "",
@@ -65,9 +59,15 @@ const CourseDeateailse = () => {
   };
 
   const { data, isLoading: isLoadingGetCourse } = UseAuthenticatedQuery({
-    queryKey: ["course"],
-    url: `course/getcourse/${idcourse}`,
+    queryKey: ["coursedeateailse"],
+    url: `course/getDeatilscourse/${idcourse}`,
+    config: {
+      headers: {
+        Authorization: token,
+      },
+    },
   });
+  console.log(data);
 
   const { data: dataVidoes, isLoading: isLoadingGrtVideo } =
     UseAuthenticatedQuery({
@@ -80,8 +80,7 @@ const CourseDeateailse = () => {
         },
       },
     });
-    console.log(dataVidoes);
-    
+  console.log(dataVidoes);
 
   const toNavigate = () => navigate(-1);
 
@@ -159,7 +158,7 @@ const CourseDeateailse = () => {
 
   const VideoList = dataVidoes?.map((video: Ividoe) =>
     isLoadingGrtVideo ? (
-      <div className="border  shadow rounded-md p-4 max-w-sm w-full mx-auto">
+      <div className="border  shadow rounded-md p-4 max-w-sm w-full mx-auto ">
         <div className="animate-pulse flex space-x-4">
           <div className="rounded bg-gray-200 h-40 w-64"></div>
           <div className="flex flex-col justify-between w-full">
@@ -182,37 +181,44 @@ const CourseDeateailse = () => {
           frameBorder="0"
           className="mr-4"
         ></iframe>
-        <div className="space-y-4">
-          <h2 className="">Description: {video.description}</h2>
-          <Button
-            onClick={() => {
-              openModalCreateCourse();
-              setIdVideo(video.id);
-            }}
-          >
-            Create Code
-          </Button>
-          <Button>
-            <NavLink to={`/vidoecode/${video.id}`}> Show Code</NavLink>
-          </Button>
-          <Button
-            variant={"danger"}
-            onClick={() => {
-              openModalDeleteCourse();
-              setIdVideo(video.id);
-            }}
-          >
-            DELETE
-          </Button>
+        <div className="space-y-2 text-nowrap ">
+          <div className=" text-nowrap ">
+            <h3>Description: {video.description}</h3>
+          </div>
+
+          <div className=" space-y-2 ">
+            <Button
+              onClick={() => {
+                openModalCreateCourse();
+                setIdVideo(video.id);
+              }}
+            >
+              Create Code
+            </Button>
+
+            <Button>
+              <NavLink to={`/vidoecode/${video.id}`}> Show Code</NavLink>
+            </Button>
+
+            <Button
+              variant={"danger"}
+              onClick={() => {
+                openModalDeleteCourse();
+                setIdVideo(video.id);
+              }}
+            >
+              DELETE
+            </Button>
+          </div>
         </div>
       </div>
     )
   );
+
   const onCreateVidoeCode = async () => {
     try {
       const res = await axioInstance.put(`video/createcode/${idvidoe}`);
       successmsg({ msg: "Done" });
-      setVidoeCode(res.data.AllCodes);
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -368,13 +374,6 @@ const CourseDeateailse = () => {
         closeModal={closeModalCreateCourse}
       >
         <div className="flex flex-col  space-x-2 mt-3 ">
-          {videoCode?.map((item, index) => (
-            <div className="flex flex-col space-y-3" key={index}>
-              <p className="text-lg mb-1">
-                {index + 1}-{item}
-              </p>
-            </div>
-          ))}
           <div className="flex justify-end space-x-2 mt-3">
             <Button onClick={onCreateVidoeCode}>Create</Button>
             <Button onClick={closeModalCreateCourse} variant={"cancel"}>
@@ -384,7 +383,7 @@ const CourseDeateailse = () => {
         </div>
       </Modal>
       <Modal
-        title="هتمسح ولا اي"
+        title="are you sure you want to delete this course ?"
         isopen={isOpendeleteCourse}
         closeModal={closeModalDeleteCourse}
       >

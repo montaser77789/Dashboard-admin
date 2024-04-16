@@ -6,19 +6,9 @@ import { useState } from "react";
 import { successmsg } from "../toastifiy";
 
 import Cookies from "js-cookie";
+import { Iquestion } from "../interfaces";
 const token = Cookies.get("access_token");
-interface Iquestion {
-  question: string;
-  _id: string;
-  answer_1: string;
-  answer_2: string;
-  answer_3: string;
-  answer_4: string;
-  correctChoice: string;
-  correctBolean: boolean;
-  mark: number;
-  role: string;
-}
+
 
 const ExamDetails = () => {
   const [refrchData, setRefrchData] = useState(0);
