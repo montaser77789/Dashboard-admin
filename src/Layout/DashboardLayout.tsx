@@ -11,7 +11,7 @@ const DashboardLayout = () => {
       {!token && <Navbar />}
       <div className=" flex  space-x-2">
         { token && <Dashboard />}
-        <Outlet />
+        <Outlet  />
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 import { Iquestion } from "../interfaces";
 const token = Cookies.get("access_token");
 
-
 const ExamDetails = () => {
   const [refrchData, setRefrchData] = useState(0);
 
@@ -102,12 +101,26 @@ const ExamDetails = () => {
           >
             <div className="bg-white m-2 p-2 h-20 hover:shadow-md ">
               <h1 className="pb-2">
-                <span className="text-[#149eca] font-semibold">Question:</span> {question.question}</h1>
+                <span className="text-[#149eca] font-semibold">Question:</span>{" "}
+                {question.question}
+              </h1>
               <div className="grid grid-cols-4 gap-2">
-                <div><span className="text-[#149eca] font-semibold">answer1:</span> {question.answer_1}</div>
-                <div><span className="text-[#149eca] font-semibold">answer2:</span>{question.answer_2}</div>
-                <div><span className="text-[#149eca] font-semibold">answer3:</span>{question.answer_3}</div>
-                <div><span className="text-[#149eca] font-semibold">answer4:</span>{question.answer_4}</div>
+                <div>
+                  <span className="text-[#149eca] font-semibold">answer1:</span>{" "}
+                  {question.answer_1}
+                </div>
+                <div>
+                  <span className="text-[#149eca] font-semibold">answer2:</span>
+                  {question.answer_2}
+                </div>
+                <div>
+                  <span className="text-[#149eca] font-semibold">answer3:</span>
+                  {question.answer_3}
+                </div>
+                <div>
+                  <span className="text-[#149eca] font-semibold">answer4:</span>
+                  {question.answer_4}
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -175,9 +188,23 @@ const ExamDetails = () => {
           Question bolean
         </h2>
 
-        {questionBoolean}
-        <h2 className="text-center text-2xl font-extrabold">Question choice</h2>
-        {questionChoice}
+        {data?.Questions.length === 0 ? (
+          <h2 className="text-center text-2xl font-extrabold m-2">
+            No Question Yet
+          </h2>
+        ) : (
+          questionBoolean
+        )}
+        <h2 className="text-center text-2xl font-extrabold">
+          Question choice !
+        </h2>
+        {data?.Questions.length === 0 ? (
+          <h2 className="text-center text-2xl font-extrabold m-2">
+            No Question Yet
+          </h2>
+        ) : (
+          questionChoice
+        )}
       </div>
     </div>
   );

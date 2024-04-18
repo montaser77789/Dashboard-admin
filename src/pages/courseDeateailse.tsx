@@ -7,7 +7,7 @@ import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axioInstance from "../components/config/config.instance";
 import Cookies from "js-cookie";
-import { successmsg } from "../toastifiy";
+import { errormsg, successmsg } from "../toastifiy";
 import { Ividoe } from "../interfaces";
 
 const CourseDeateailse = () => {
@@ -23,40 +23,32 @@ const CourseDeateailse = () => {
   const [refrchDataVidoe, setRefrchDataVidoe] = useState(0);
   const [couurseCode, setCourseCode] = useState([]);
   const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
+  const [isLoadingNewvideo, setIsLoadingNewvideo] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState({
     description: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [accessVideo, setaccessVideo] = useState({
+    id: "",
+  });
+  const [error, setError] = useState("");
 
   const token = Cookies.get("access_token");
+  const toNavigate = () => navigate(-1);
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  const closeModal = () => setIsOpen(false);
 
-  const closeModalCreate = () => {
-    setIsOpenCreate(false);
-  };
-  const openModalCreate = () => {
-    setIsOpenCreate(true);
-  };
+  const closeModalCreate = () => setIsOpenCreate(false);
 
-  const closeModalCreateCourse = () => {
-    setIsOpenCreateCourse(false);
-  };
-  const openModalCreateCourse = () => {
-    setIsOpenCreateCourse(true);
-  };
+  const openModalCreate = () => setIsOpenCreate(true);
 
-  const closeModalDeleteCourse = () => {
-    setIsOpenDeleteCourse(false);
-  };
-  const openModalDeleteCourse = () => {
-    setIsOpenDeleteCourse(true);
-  };
+  const closeModalCreateCourse = () => setIsOpenCreateCourse(false);
+
+  const openModalCreateCourse = () => setIsOpenCreateCourse(true);
+
+  const closeModalDeleteCourse = () => setIsOpenDeleteCourse(false);
+
+  const openModalDeleteCourse = () => setIsOpenDeleteCourse(true);
 
   const { data, isLoading: isLoadingGetCourse } = UseAuthenticatedQuery({
     queryKey: ["coursedeateailse"],
@@ -67,22 +59,17 @@ const CourseDeateailse = () => {
       },
     },
   });
-  console.log(data);
 
   const { data: dataVidoes, isLoading: isLoadingGrtVideo } =
     UseAuthenticatedQuery({
       queryKey: [`video${refrchDataVidoe}`],
       url: `video/getvideos/${idcourse}`,
-
       config: {
         headers: {
           Authorization: token,
         },
       },
     });
-  console.log(dataVidoes);
-
-  const toNavigate = () => navigate(-1);
 
   const onChangeVidoes = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -156,6 +143,68 @@ const CourseDeateailse = () => {
     }
   };
 
+  const onCreateVidoeCode = async () => {
+    try {
+      const res = await axioInstance.put(`video/createcode/${idvidoe}`);
+      successmsg({ msg: "Done" });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const onCreateCourseCode = async () => {
+    try {
+      const res = await axioInstance.put(`course/createcode/${idcourse}`);
+      successmsg({ msg: "Done" });
+      setCourseCode(res.data.AllCodes);
+      console.log(couurseCode);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChangeHandlerNewVideo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setaccessVideo({ ...accessVideo, [name]: value });
+    setError("");
+  };
+
+  const onSubmitHandlerNewVideo = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    if (!accessVideo.id) {
+      setError("Please enter Student ID");
+      return;
+    }
+    setIsLoadingNewvideo(true);
+    try {
+      await axioInstance.put(
+        `video/download-video/${idcourse}`,
+        {
+          videoId: accessVideo.id,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      successmsg({ msg: "Done Video Download !" });
+      setRefrchDataVidoe((prev) => (prev = prev + 1));
+      setaccessVideo({
+        id: "",
+      });
+    } catch (error) {
+      console.log(error);
+      const { response } = error as { response: { data: string } };
+      errormsg({ msg: `${response?.data}` });
+    } finally {
+      setIsLoadingNewvideo(false);
+    }
+  };
+
   const VideoList = dataVidoes?.map((video: Ividoe) =>
     isLoadingGrtVideo ? (
       <div className="border  shadow rounded-md p-4 max-w-sm w-full mx-auto ">
@@ -214,27 +263,6 @@ const CourseDeateailse = () => {
       </div>
     )
   );
-
-  const onCreateVidoeCode = async () => {
-    try {
-      const res = await axioInstance.put(`video/createcode/${idvidoe}`);
-      successmsg({ msg: "Done" });
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const onCreateCourseCode = async () => {
-    try {
-      const res = await axioInstance.put(`course/createcode/${idcourse}`);
-      successmsg({ msg: "Done" });
-      setCourseCode(res.data.AllCodes);
-      console.log(couurseCode);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="container mx-auto p-8 bg-[#f3f4f7]">
@@ -314,16 +342,54 @@ const CourseDeateailse = () => {
               <p>{data?.departement}</p>
             </div>
           )}
+          {isLoadingGetCourse ? (
+            <div className="text-center mt-8 flex justify-evenly items-center">
+              <div className="w-44 h-4 bg-gray-200 rounded"></div>
+              <div className="w-44 h-4 bg-gray-200 rounded"></div>
+            </div>
+          ) : (
+            <div className="text-center mt-8 flex justify-evenly items-center">
+              <Button onClick={openModalCreate}>Create Code</Button>
+              <Button>
+                <NavLink to={`/courseCode/${idcourse}`}>Show Code</NavLink>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="text-center mt-8 flex justify-evenly items-center">
-        <Button onClick={openModal}>Add New Video</Button>
-        <Button onClick={openModalCreate}>Create Code</Button>
-        <Button>
-          <NavLink to={`/courseCode/${idcourse}`}>Show Code</NavLink>
-        </Button>
+      <div className="w-full mt-4">
+        <div className="mx-auto max-w-md p-6 bg-white rounded-lg shadow-md">
+          <form
+            className="flex flex-col space-y-4"
+            onSubmit={onSubmitHandlerNewVideo}
+          >
+            <div>
+              <label htmlFor="id" className="text-gray-700">
+                Video ID:
+              </label>
+              <Input
+                id="id"
+                type="text"
+                name="id"
+                value={accessVideo.id}
+                onChange={onChangeHandlerNewVideo}
+                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                placeholder="Enter Video ID"
+              />
+              {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+            </div>
+            <Button
+              type="submit"
+              isloading={isLoadingNewvideo}
+              className="w-full px-4 py-2 text-white  rounded-md hover:bg-indigo-600 focus:outline-none"
+            >
+              Access Video
+            </Button>
+          </form>
+        </div>
       </div>
+
       <div className=" space-x-1 pt-4">{VideoList}</div>
 
       <Modal title="Add New Video" isopen={isOpen} closeModal={closeModal}>

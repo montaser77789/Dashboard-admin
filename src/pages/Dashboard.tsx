@@ -62,7 +62,10 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="dashboard-container min-h-screen screen w-64 bg-white border-r shadow">
+      <div className="dashboard-containe  w-72 ">
+        <div className="fixed flex flex-col justify-between  top-0 left-0 bottom-0  screen  w-56   bg-white border-r shadow ">
+
+
         <div className="px-4 py-6 pos">
           <span className="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
             Logo
@@ -72,12 +75,12 @@ const Dashboard = () => {
             <li>
               <details className="group [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer items-center justify-between rounded-lg  text-gray-500 hover:bg-indigo-500 hover:text-white">
-                  <span className="text-sm font-medium px-4 py-2  ">
+                  <span className="text-sm font-medium  ">
                     {" "}
-                    <NavLink to="/">Student</NavLink>{" "}
+                    <NavLink className=" px-10 py-3"  to="/">Student</NavLink>{" "}
                   </span>
 
-                  <span className="shrink-0 transition px-4 py-2 rounded-lg duration-300 group-open:-rotate-180 hover:bg-indigo-800 hover:text-white">
+                  <span className="shrink-0 transition px-4 py-2 rounded-lg duration-300 group-open:-rotate-180 hover:bg-indigo-700 hover:text-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5  "
@@ -150,12 +153,12 @@ const Dashboard = () => {
             <li>
               <details className="group [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex cursor-pointer items-center justify-between rounded-lg  text-gray-500 hover:bg-indigo-500 hover:text-white">
-                  <span className="text-sm font-medium px-4 py-2  ">
+                  <span className="text-sm font-medium   ">
                     {" "}
-                    <NavLink to="/allcourses">Courses</NavLink>{" "}
+                    <NavLink className=" px-10 py-3" to="/allcourses">Courses</NavLink>{" "}
                   </span>
 
-                  <span className="shrink-0 transition px-4 py-2 rounded-lg duration-300 group-open:-rotate-180 hover:bg-indigo-800 hover:text-white">
+                  <span className="shrink-0 transition px-4 py-2 rounded-lg duration-300 group-open:-rotate-180 hover:bg-indigo-700 hover:text-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -199,8 +202,8 @@ const Dashboard = () => {
 
             <li>
               <NavLink
-                to="/accessstudent"
-                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
+                to="/accessstudent" 
+                className="block rounded-lg  px-10 py-3 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
               >
                 Access
               </NavLink>
@@ -209,7 +212,7 @@ const Dashboard = () => {
             <li>
               <NavLink
                 to="/addexam"
-                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
+                className="block rounded-lg px-10 py-3 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
               >
                 Create Exam
               </NavLink>
@@ -217,23 +220,26 @@ const Dashboard = () => {
             <li>
               <NavLink
                 to="/quize"
-                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
+                className="block rounded-lg px-10 py-3 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white"
               >
                 Quize
               </NavLink>
             </li>
           </ul>
         </div>
+
         <div>
-          <ul className="mt-6 space-y-1 px-4 ">
+          <ul className="mb-8 space-y-1 px-4 ">
             <li className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white">
-              <NavLink to="/login" onClick={logOut}>
+              <NavLink className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white" to="/login" onClick={logOut}>
                 Logout
               </NavLink>
             </li>
           </ul>
         </div>
       </div>
+      </div>
+
     </>
   );
 };
