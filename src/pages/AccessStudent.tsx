@@ -16,14 +16,13 @@ const AccessStudent = () => {
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAccessStudent({ ...accessStudent, [name]: value });
-    // Clear error message when user starts typing
     setError("");
   };
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!accessStudent.id) {
-      setError("Please enter Student ID");
+      setError("Please enter Video ID");
       return;
     }
     try {

@@ -15,7 +15,7 @@ const Quizes = () => {
   const [refrchData, setRefrchData] = useState(0);
   const { data, isLoading } = UseAuthenticatedQuery({
     queryKey: [`quizes${refrchData}`],
-    url: "teacher/getallexams",
+    url: "teacher/exam/getallexams",
     config: {
       headers: {
         Authorization: token,
@@ -24,7 +24,7 @@ const Quizes = () => {
   });
   const onDeleteExam = async (id: string) => {
     try {
-      const res = await axioInstance.delete(`teacher/deleteexam/${id}`, {
+      const res = await axioInstance.delete(`teacher/exam/deleteexam/${id}`, {
         headers: {
           Authorization: token,
         },

@@ -9,6 +9,17 @@ import { successmsg } from "../toastifiy";
 import Select from "react-select";
 import InputErrormesg from "../components/ui/Inputerrormessage";
 
+interface Ipropse {
+  question: string;
+  answer_1: string;
+  answer_2: string;
+  answer_3: string;
+  answer_4: string;
+  correctChoice: string;
+  correctBolean: string;
+  mark: number;
+  role: string;
+}
 const CreateQuetion = () => {
   const token = Cookies.get("access_token");
 
@@ -16,7 +27,7 @@ const CreateQuetion = () => {
   const examId = parmse.Idexam;
   console.log(examId);
 
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<Ipropse>({
     question: "",
     answer_1: "",
     answer_2: "",
@@ -27,8 +38,9 @@ const CreateQuetion = () => {
     mark: 1,
     role: "choice",
   });
-  const [error, setError] = useState('');
-
+  const [error, setError] = useState("");
+  const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
+  console.log(thumbnailCreate);
 
   console.log(inputValue);
 
@@ -43,17 +55,39 @@ const CreateQuetion = () => {
 
     setInputValue({ ...inputValue, [name]: value });
   };
+  const onChangeVidoes = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files?.length) {
+      setThumbnailCreate(files[0]);
+    }
+  };
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isValid = /^\d+$/.test(String(inputValue.mark));
     if (!isValid) {
-      setError('Please enter a valid number.');
+      setError("Please enter a valid number.");
       return;
     }
+    const formData = new FormData();
+    if (thumbnailCreate) {
+      formData.append("file", thumbnailCreate);
+    }
+    console.log(thumbnailCreate);
+
+    formData.append("question", inputValue.question);
+    formData.append("answer_1", inputValue.answer_1);
+    formData.append("answer_2", inputValue.answer_2);
+    formData.append("answer_3", inputValue.answer_3);
+    formData.append("answer_4", inputValue.answer_4);
+    formData.append("correctChoice", inputValue.correctChoice);
+    formData.append("correctBolean", inputValue.correctBolean);
+    formData.append("mark", inputValue.mark.toString());
+    formData.append("role", inputValue.role);
     try {
       const res = await axioInstance.post(
-        `teacher/addquestion/${examId}`,
-        inputValue,
+        `teacher/exam/addquestion/${examId}`,
+        formData,
         {
           headers: {
             Authorization: token,
@@ -78,6 +112,7 @@ const CreateQuetion = () => {
       console.log(error);
     }
   };
+
   const options = [
     { value: "choice", label: "choice" },
     { value: "bolean", label: "bolean" },
@@ -100,7 +135,6 @@ const CreateQuetion = () => {
     { value: "answer_3", label: "answer_3" },
     { value: "answer_4", label: "answer_4" },
   ];
-
 
   return (
     <div className="lg:w-[100%] ">
@@ -141,6 +175,10 @@ const CreateQuetion = () => {
                 name="question"
                 value={inputValue.question}
               />
+            </div>
+            <div>
+              <label className="font-semibold">Upload Image:</label>
+              <Input type="file" onChange={onChangeVidoes} />
             </div>
             {inputValue.role == "choice" && (
               <>
@@ -283,13 +321,13 @@ const CreateQuetion = () => {
 
             <div>
               <label className="font-semibold">Mark:</label>
-             
+
               <Input
                 onChange={onChangeHandler}
                 name="mark"
                 value={inputValue.mark}
               />
-              <InputErrormesg msg={error}/>
+              <InputErrormesg msg={error} />
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ const ExamDetails = () => {
   const examId = parmse.examId;
   const { data } = UseAuthenticatedQuery({
     queryKey: [`quiz/${refrchData}`],
-    url: `teacher/getexam/${examId}`,
+    url: `teacher/exam/getexam/${examId}`,
     config: {
       headers: {
         Authorization: token,
@@ -28,7 +28,7 @@ const ExamDetails = () => {
   const onDeleteQuestion = async (id: string) => {
     try {
       const res = await axioInstance.delete(
-        `teacher/deletequestion/${examId}/${id}`,
+        `teacher/exam/deletequestion/${examId}/${id}`,
         {
           headers: {
             Authorization: token,

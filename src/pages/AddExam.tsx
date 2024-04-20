@@ -57,7 +57,7 @@ const AddExam = () => {
     }
 
     try {
-      const res = await axioInstance.post("teacher/addexam", inputValue, {
+      const res = await axioInstance.post("teacher/exam/addexam", inputValue, {
         headers: {
           Authorization: token,
         },

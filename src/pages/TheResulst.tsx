@@ -12,7 +12,7 @@ const TheResulst = () => {
 
   const { data, isLoading } = UseAuthenticatedQuery({
     queryKey: ["result"],
-    url: `teacher/exam_results/${examId}`,
+    url: `teacher/exam/exam_results/${examId}`,
     config: {
       headers: {
         Authorization: token,

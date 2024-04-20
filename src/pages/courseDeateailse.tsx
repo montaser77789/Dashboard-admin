@@ -14,7 +14,6 @@ const CourseDeateailse = () => {
   const params = useParams();
   const idcourse = params.courseId;
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoadingDeleteCourse, setIsLoadingDeleteCourse] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [isOpenCreateCourse, setIsOpenCreateCourse] = useState(false);
@@ -22,12 +21,8 @@ const CourseDeateailse = () => {
   const [idvidoe, setIdVideo] = useState("");
   const [refrchDataVidoe, setRefrchDataVidoe] = useState(0);
   const [couurseCode, setCourseCode] = useState([]);
-  const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
   const [isLoadingNewvideo, setIsLoadingNewvideo] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [description, setDescription] = useState({
-    description: "",
-  });
+
   const [accessVideo, setaccessVideo] = useState({
     id: "",
   });
@@ -35,8 +30,6 @@ const CourseDeateailse = () => {
 
   const token = Cookies.get("access_token");
   const toNavigate = () => navigate(-1);
-
-  const closeModal = () => setIsOpen(false);
 
   const closeModalCreate = () => setIsOpenCreate(false);
 
@@ -71,56 +64,6 @@ const CourseDeateailse = () => {
       },
     });
 
-  const onChangeVidoes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (files?.length) {
-      setThumbnailCreate(files[0]);
-    }
-  };
-  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("description", description.description);
-    if (thumbnailCreate) {
-      formData.append("file", thumbnailCreate);
-    }
-    console.log(formData);
-
-    try {
-      setLoading(true);
-      const res = await axioInstance.post(
-        `video/upload/${idcourse}`,
-        formData,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log(res);
-      successmsg({ msg: res.data });
-      setRefrchDataVidoe((prev) => (prev = prev + 1));
-
-      setDescription({
-        description: "",
-      });
-      setThumbnailCreate(undefined);
-      closeModalCreate();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-      closeModal();
-    }
-  };
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setDescription({
-      ...description,
-      [name]: value,
-    });
-  };
   const onDeleteCourse = async () => {
     setIsLoadingDeleteCourse(true);
     try {
@@ -392,27 +335,6 @@ const CourseDeateailse = () => {
 
       <div className=" space-x-1 pt-4">{VideoList}</div>
 
-      <Modal title="Add New Video" isopen={isOpen} closeModal={closeModal}>
-        <form onSubmit={onSubmitHandler} className="space-y-2">
-          <label>Description:</label>
-          <Input
-            placeholder="Description"
-            onChange={onChangeHandler}
-            value={description.description}
-            name="description"
-          />
-
-          <Input type="file" onChange={onChangeVidoes} />
-          <div className="flex justify-end space-x-2 mt-3">
-            <Button type="submit" isloading={loading}>
-              Add
-            </Button>
-            <Button onClick={closeModal} variant={"cancel"}>
-              Cancle
-            </Button>
-          </div>
-        </form>
-      </Modal>
       <Modal
         title="Create Code to course"
         isopen={isOpenCreate}
