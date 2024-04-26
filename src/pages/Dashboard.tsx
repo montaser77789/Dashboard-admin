@@ -5,6 +5,7 @@ import { chhakedSubj, chhakedUsers } from "../app/Slices/checkedSubj";
 import UseAuthenticatedQuery from "../hooks/useAuthenticatedQuery";
 import Cookies from "js-cookie";
 import { Icourses } from "../interfaces";
+import image from "../assets/photo_2024-04-26_16-15-41.jpg";
 
 const Dashboard = () => {
   const token = Cookies.get("access_token");
@@ -14,7 +15,6 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
   dispatch(chhakedSubj(selectedSubjects));
-  console.log(selectedSubjects);
 
   dispatch(chhakedUsers(selectedSUser));
   const { data } = UseAuthenticatedQuery({
@@ -67,8 +67,8 @@ const Dashboard = () => {
 
 
         <div className="px-4 py-6 pos">
-          <span className="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
-            Logo
+          <span className="grid rounded-full  w-28 h-28 place-content-center  bg-gray-100 text-xs text-gray-600">
+            <img className="  rounded-full " src={image}/>
           </span>
 
           <ul className="mt-6 space-y-1">

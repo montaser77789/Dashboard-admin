@@ -17,7 +17,6 @@ export default function HomePage() {
   const [refrchPage, setrefrchPagee] = useState(0);
 
   const [searchUser, setSearchUser] = useState<Iusers[]>([]);
-  console.log(searchUser);
 
   const token = Cookies.get("access_token");
 
@@ -33,7 +32,6 @@ export default function HomePage() {
       },
     },
   });
-  console.log(data);
 
   useEffect(() => {
     if (data) {

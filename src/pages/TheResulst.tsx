@@ -8,7 +8,6 @@ const token = Cookies.get("access_token");
 const TheResulst = () => {
   const parmse = useParams();
   const examId = parmse.examId;
-  console.log(examId);
 
   const { data, isLoading } = UseAuthenticatedQuery({
     queryKey: ["result"],
@@ -19,7 +18,6 @@ const TheResulst = () => {
       },
     },
   });
-  console.log(data);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 w-full">

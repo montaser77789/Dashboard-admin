@@ -23,7 +23,6 @@ const ExamDetails = () => {
       },
     },
   });
-  console.log(data);
 
   const onDeleteQuestion = async (id: string) => {
     try {
@@ -36,7 +35,6 @@ const ExamDetails = () => {
         }
       );
       successmsg({ msg: `${res.data}` });
-      console.log(res);
       setRefrchData((prev) => (prev = prev + 1));
     } catch (error) {
       console.log(error);

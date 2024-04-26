@@ -2,14 +2,12 @@ import { NavLink } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Cookies from "js-cookie";
 import UseAuthenticatedQuery from "../hooks/useAuthenticatedQuery";
-import axioInstance from "../components/config/config.instance";
-import { successmsg } from "../toastifiy";
+
 import { useState } from "react";
 import Skeleton from "../components/Skellton";
 import { Iexam } from "../interfaces";
+import ButtonDelete from "../components/ButtonDelete";
 const token = Cookies.get("access_token");
-
-
 
 const Quizes = () => {
   const [refrchData, setRefrchData] = useState(0);
@@ -22,20 +20,6 @@ const Quizes = () => {
       },
     },
   });
-  const onDeleteExam = async (id: string) => {
-    try {
-      const res = await axioInstance.delete(`teacher/exam/deleteexam/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      console.log(res);
-      successmsg({ msg: `${res.data}` });
-      setRefrchData((prev) => (prev = prev + 1));
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 w-full">
@@ -98,15 +82,7 @@ const Quizes = () => {
                       </Button>
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {" "}
-                      <Button
-                        variant={"danger"}
-                        onClick={() => {
-                          onDeleteExam(exam._id);
-                        }}
-                      >
-                        DELETE
-                      </Button>
+                      <ButtonDelete exam={exam} setRefrchData={setRefrchData} />
                     </td>
                   </tr>
                 ))

@@ -7,7 +7,6 @@ import Button from "../components/ui/Button";
 const CourseCode = () => {
   const parmse = useParams();
   const courseId = parmse.courseId;
-  console.log(courseId);
   const token = Cookies.get("access_token");
 
   const { data } = UseAuthenticatedQuery({
@@ -20,7 +19,6 @@ const CourseCode = () => {
     },
   });
 
-  console.log(data);
   const { data: getusedcodesdata } = UseAuthenticatedQuery({
     queryKey: ["coursecodeunusesd"],
     url: `course/getusedcodes/${courseId}`,
@@ -30,7 +28,6 @@ const CourseCode = () => {
       },
     },
   });
-  console.log(getusedcodesdata);
   const handleCreatePDF = () => {
     const doc = new jsPDF();
 
@@ -43,7 +40,14 @@ const CourseCode = () => {
   };
 
   return (
-    <div className="flex justify-between  w-full">
+    <div className="flex flex-col justify-between  w-full">
+
+    <div>
+    <Button  className=" text-white font-bold py-2 px-4 my-2 rounded" onClick={handleCreatePDF}>
+      Download PDF
+    </Button>
+  </div>
+    <div className="flex justify-between  space-x-1 w-full">
       <div className="overflow-x-auto rounded-lg border border-gray-200 w-[50%]">
         <table className="w-full divide-y-2 divide-gray-200 bg-white text-sm">
           <thead className=" divide-x divide-gray-200 ">
@@ -120,12 +124,10 @@ const CourseCode = () => {
         </table>
       </div>
 
-      <div>
-        <Button className="w-full" onClick={handleCreatePDF}>
-          Download PDF
-        </Button>
-      </div>
+ 
     </div>
+    </div>
+
   );
 };
 

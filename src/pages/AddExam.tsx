@@ -10,8 +10,8 @@ import InputErrormesg from "../components/ui/Inputerrormessage";
 
 const AddExam = () => {
   const token = Cookies.get("access_token");
+  const [loadingButton, setLoadingButton  ] = useState(false);
 
-  console.log(token);
 
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState({
@@ -50,13 +50,13 @@ const AddExam = () => {
       Object.values(errorMessage).some((value) => value == "") &&
       Object.values(errorMessage).every((value) => value == "");
     console.log(!haserrormesage);
-
     if (!haserrormesage) {
       seterrorMessage(errorMessage);
+      
       return;
     }
-
     try {
+      setLoadingButton(true)
       const res = await axioInstance.post("teacher/exam/addexam", inputValue, {
         headers: {
           Authorization: token,
@@ -68,6 +68,9 @@ const AddExam = () => {
       setLoading(true);
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoadingButton(false)
+
     }
   };
   return (
@@ -147,7 +150,7 @@ const AddExam = () => {
         </div>
         <div className="flex flex-col md:flex-row justify-between mt-5 md:mt-10 space-y-5 md:space-y-0 md:space-x-5 ">
           {!loading && (
-            <Button className="w-full md:w-auto hover:bg-blue-900">
+            <Button isloading={loadingButton} className="w-full md:w-auto hover:bg-blue-900">
               Create Exam
             </Button>
           )}

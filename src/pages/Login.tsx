@@ -23,15 +23,12 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setisloading(true);
 
-    console.log(data);
     try {
       const { data: resData, status } = await axioInstance.post(
         "teacher/login",
         data
       );
-
       Cookies.set("access_token", resData.access_token);
-      console.log(resData.access_token);
 
       // const IN_DAYS = 3;
       // const EXPIRE_IN_DAYS = 1000 * 60 * 60 * 24 * IN_DAYS;

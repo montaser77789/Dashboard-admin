@@ -10,7 +10,6 @@ const Coursesuser = () => {
   const params = useParams();
   const userId = params.userId;
   
-  console.log(userId);
   const { data, isLoading } = UseAuthenticatedQuery({
     queryKey: [`getcourse}`],
     url: `course/getcourse/${userId}`,
@@ -20,7 +19,6 @@ const Coursesuser = () => {
       },
     }
   });
-  console.log(data);
 
   if (isLoading) return <h3>Loading...</h3>;
 

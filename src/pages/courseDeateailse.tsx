@@ -9,7 +9,6 @@ import axioInstance from "../components/config/config.instance";
 import Cookies from "js-cookie";
 import { errormsg, successmsg } from "../toastifiy";
 import { Ividoe } from "../interfaces";
-
 const CourseDeateailse = () => {
   const params = useParams();
   const idcourse = params.courseId;
@@ -45,7 +44,7 @@ const CourseDeateailse = () => {
 
   const { data, isLoading: isLoadingGetCourse } = UseAuthenticatedQuery({
     queryKey: ["coursedeateailse"],
-    url: `course/getDeatilscourse/${idcourse}`,
+    url: `course/getDetailscourse/${idcourse}`,
     config: {
       headers: {
         Authorization: token,
@@ -75,7 +74,6 @@ const CourseDeateailse = () => {
           },
         }
       );
-      console.log(res);
       setRefrchDataVidoe((prev) => (prev = prev + 1));
       successmsg({ msg: res.data });
     } catch (error) {
@@ -88,9 +86,7 @@ const CourseDeateailse = () => {
 
   const onCreateVidoeCode = async () => {
     try {
-      const res = await axioInstance.put(`video/createcode/${idvidoe}`);
-      successmsg({ msg: "Done" });
-      console.log(res);
+     await axioInstance.put(`video/createcode/${idvidoe}`);
     } catch (error) {
       console.log(error);
     }
@@ -100,8 +96,7 @@ const CourseDeateailse = () => {
       const res = await axioInstance.put(`course/createcode/${idcourse}`);
       successmsg({ msg: "Done" });
       setCourseCode(res.data.AllCodes);
-      console.log(couurseCode);
-      console.log(res.data);
+  
     } catch (error) {
       console.log(error);
     }

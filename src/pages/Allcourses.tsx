@@ -17,12 +17,10 @@ import { RootState } from "../app/store";
 import Skeleton from "../components/Skellton";
 import Select from "react-select";
 
-
 const Allcourses = () => {
   const chackedSubj = useSelector(
     (state: RootState) => state.checkedsubj.valueSubjFilter
   );
-  console.log(chackedSubj);
 
   const [refrchUsers, setrefrchUsers] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -105,12 +103,10 @@ const Allcourses = () => {
       subject: createCourse.subject,
       level: createCourse.level,
     });
-    console.log(errorMessage);
 
     const haserrormesage =
       Object.values(errorMessage).some((value) => value == "") &&
       Object.values(errorMessage).every((value) => value == "");
-    console.log(!haserrormesage);
 
     if (!haserrormesage) {
       seterrorMessage(errorMessage);
@@ -178,13 +174,10 @@ const Allcourses = () => {
       subject: editCourse.subject,
       level: editCourse.level,
     });
-    console.log(errorMessage);
 
     const haserrormesage =
       Object.values(errorMessage).some((value) => value == "") &&
       Object.values(errorMessage).every((value) => value == "");
-    console.log(!haserrormesage);
-    console.log(editCourse._id);
 
     if (!haserrormesage) {
       seterrorMessage(errorMessage);
@@ -193,7 +186,7 @@ const Allcourses = () => {
 
     try {
       setisloadingUpdate(true);
-      const res = await axioInstance.patch(
+      await axioInstance.patch(
         `course/editcourse/${editCourse._id}`,
         {
           title: TitleEdit,
@@ -207,7 +200,6 @@ const Allcourses = () => {
           },
         }
       );
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {
@@ -218,7 +210,6 @@ const Allcourses = () => {
   };
 
   const handleDeleteCourse = async (courseId: string | undefined) => {
-    console.log(courseId);
 
     try {
       setisLoading(true);
@@ -242,7 +233,6 @@ const Allcourses = () => {
       },
     },
   });
-  console.log(data);
 
   const [SearchCourses, setSearchCourses] = useState<Icourses[]>([]);
   useEffect(() => {
@@ -259,7 +249,6 @@ const Allcourses = () => {
   }, [data, chackedSubj]);
   const [inputValue, setInputValue] = useState({
     roles: "",
-    
   });
   const options = [
     { value: "teacher", label: "teacher" },
@@ -280,143 +269,140 @@ const Allcourses = () => {
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-gray-200">
-  {isLoadingData ? (
-    <Skeleton />
-  ) : (
-    <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-      <thead className="ltr:text-left rtl:text-right">
-        <tr>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
-            title
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            price
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            subject
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            collegeName
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            UniversityName
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            Level
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            departement
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            deateals
-          </th>
-          <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-gray-200">
-        {SearchCourses?.length !== 0 ? (
-          SearchCourses.map((course: Icourses) => (
-            <Fragment key={course._id}>
-              <tr className="bg-gray-50">
-                <td className="whitespace-nowrap w-[200px] px-4 py-2 font-medium text-gray-900 text-ellipsis">
-                  {course.title?.slice(0, 20)}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {course.price}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {course.subject}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {course.UniversityName?.slice(0, 20)}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {course.collegeName?.slice(0,20)}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {course.level}
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  {course.departement?.slice(0, 20)}
-                </td>
-                <td>
-                  <Button size={"sm"} onClick={() => {}}>
-                    <NavLink to={`/viwdeatels/${course._id}`}>
-                      DEATEALS
-                    </NavLink>
-                  </Button>
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  <div className="flex space-x-2">
-                    <Button
-                      onClick={() => {
-                        setisOpenDelete(true);
-                        setCurrentCourseId(course._id);
-                      }}
-                      size={"sm"}
-                      variant={"danger"}
-                    >
-                      <BsTrash size={17} className="mr-1" />
-                    </Button>
-                    <Button
-                      className="mr-1"
-                      size={"sm"}
-                      onClick={() => {
-                        openModalUpdate(course);
-                      }}
-                    >
-                      <CiEdit size={17} />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            </Fragment>
-          ))
+        {isLoadingData ? (
+          <Skeleton />
         ) : (
-          <tr>
-            <td
-              colSpan={9}
-              className="text-3xl font-bold mb-4 px-6 py-4 whitespace-nowrap text-center"
-            >
-              No Courses Yet!
-            </td>
-          </tr>
+          <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+            <thead className="ltr:text-left rtl:text-right">
+              <tr>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
+                  title
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  price
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  subject
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  collegeName
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  UniversityName
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Level
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  departement
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  deateals
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {SearchCourses?.length !== 0 ? (
+                SearchCourses.map((course: Icourses) => (
+                  <Fragment key={course._id}>
+                    <tr className="bg-gray-50">
+                      <td className="whitespace-nowrap w-[200px] px-4 py-2 font-medium text-gray-900 text-ellipsis">
+                        {course.title?.slice(0, 20)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {course.price}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {course.subject}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {course.UniversityName?.slice(0, 20)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {course.collegeName?.slice(0, 20)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {course.level}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {course.departement?.slice(0, 20)}
+                      </td>
+                      <td>
+                        <Button size={"sm"} onClick={() => {}}>
+                          <NavLink to={`/viwdeatels/${course._id}`}>
+                            DEATEALS
+                          </NavLink>
+                        </Button>
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        <div className="flex space-x-2">
+                          <Button
+                            onClick={() => {
+                              setisOpenDelete(true);
+                              setCurrentCourseId(course._id);
+                            }}
+                            size={"sm"}
+                            variant={"danger"}
+                          >
+                            <BsTrash size={17} className="mr-1" />
+                          </Button>
+                          <Button
+                            className="mr-1"
+                            size={"sm"}
+                            onClick={() => {
+                              openModalUpdate(course);
+                            }}
+                          >
+                            <CiEdit size={17} />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  </Fragment>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={9}
+                    className="text-3xl font-bold mb-4 px-6 py-4 whitespace-nowrap text-center"
+                  >
+                    No Courses Yet!
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         )}
-      </tbody>
-    </table>
-  )}
-</div>
-
+      </div>
 
       {/* Create */}
       <Modal isopen={isOpen} closeModal={closeModal} title="Create New Cousre">
-      <div className="space-y-1 w-full">
-              <label className="font-semibold">Type:</label>
+        <div className="space-y-1 w-full">
+          <label className="font-semibold">Type:</label>
 
-              <Select
-              
-                onChange={(e) => {
-                  const value = e ? e.value : "";
-                  setInputValue({ ...inputValue ,roles: value});
-                  
-                }}
-                options={options}
-                className="basic-single  "
-                classNamePrefix="select"
-                name="roles"
-              />
-              <div
-                style={{
-                  color: "hsl(0, 0%, 40%)",
-                  display: "inline-block",
-                  fontSize: 12,
-                  fontStyle: "italic",
-                  marginTop: "1em",
-                }}
-              ></div>
-            </div>
+          <Select
+            onChange={(e) => {
+              const value = e ? e.value : "";
+              setInputValue({ ...inputValue, roles: value });
+            }}
+            options={options}
+            className="basic-single  "
+            classNamePrefix="select"
+            name="roles"
+          />
+          <div
+            style={{
+              color: "hsl(0, 0%, 40%)",
+              display: "inline-block",
+              fontSize: 12,
+              fontStyle: "italic",
+              marginTop: "1em",
+            }}
+          ></div>
+        </div>
         <form onSubmit={onSubmitHandler} className="space-y-1">
           <label>
             Title:
@@ -447,24 +433,28 @@ const Allcourses = () => {
           </label>
           <InputErrormesg msg={errorMessage.subject} />
 
-    {  inputValue.roles === "doctor"   &&  <label>
-            collegeName:
-            <Input
-              name="collegeName"
-              onChange={inputHandelers}
-              value={createCourse.collegeName}
-            />
-          </label>}
+          {inputValue.roles === "doctor" && (
+            <label>
+              collegeName:
+              <Input
+                name="collegeName"
+                onChange={inputHandelers}
+                value={createCourse.collegeName}
+              />
+            </label>
+          )}
 
           {/* <InputErrormesg msg={errorMessage.subject} /> */}
-          {  inputValue.roles === "doctor" &&    <label>
-            UniversityName:
-            <Input
-              name="UniversityName"
-              onChange={inputHandelers}
-              value={createCourse.UniversityName}
-            />
-          </label> }
+          {inputValue.roles === "doctor" && (
+            <label>
+              UniversityName:
+              <Input
+                name="UniversityName"
+                onChange={inputHandelers}
+                value={createCourse.UniversityName}
+              />
+            </label>
+          )}
           {/* <InputErrormesg msg={errorMessage.subject} /> */}
           <label>
             level:
@@ -497,11 +487,6 @@ const Allcourses = () => {
             </Button>
           </div>
         </form>
-
-      
-
-
-   
       </Modal>
       <Modal
         title="Are you sure you want to delete the course?"
