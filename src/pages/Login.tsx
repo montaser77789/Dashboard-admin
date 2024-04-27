@@ -71,20 +71,19 @@ const LoginPage = () => {
     )
   );
   return (
-    <div className="w-1/3 mt-10 mx-auto">
+    <div className="w-[80%] md:w-1/3 mt-10 mx-auto">
       <h2 className="text-center mb-4 text-3xl font-semibold">
         Login to get access!
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {handleLogin}
-
         <Button fullWidth isloading={isloading}>
-          {" "}
-          {isloading ? "loading.." : "Login"}{" "}
+          {isloading ? "loading.." : "Login"}
         </Button>
       </form>
     </div>
   );
+  
 };
 
 export default LoginPage;

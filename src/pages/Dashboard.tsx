@@ -65,29 +65,24 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="z-20 ">
-        {open ? (
-          <IoCloseSharp
-            className=" mt-3  mx-2  cursor-pointer z-10  text-3xl  "
-            onClick={() => setOpen((prev) => !prev)}
-          />
-        ) : (
-          <MdMenu
-            className="  mt-3 mx-2 cursor-pointer z-10  text-3xl "
-            onClick={() => setOpen((prev) => !prev)}
-          />
-        )}
-      </div>
-
       <div
-        className={`dashboard-container b w-${
-          open ? "[220px]" : "[50px]"
-        }  transition-left duration-300 ease-in-out z-10`}
+        className={` transition-left duration-300 ease-in-out z-10 border-r shadow h-screen`}
       >
+        <div className="z-20 ">
+          {open ? (
+            <IoCloseSharp
+              className=" mt-3  mx-2  cursor-pointer z-10  text-3xl  "
+              onClick={() => setOpen((prev) => !prev)}
+            />
+          ) : (
+            <MdMenu
+              className="  mt-3 mx-2 cursor-pointer z-10  text-3xl "
+              onClick={() => setOpen((prev) => !prev)}
+            />
+          )}
+        </div>
         <div
-          className={`fixed flex flex-col justify-between top-0 left-${
-            open ? "0" : "[-205px]"
-          } bottom-0 screen w-[205px] bg-white border-r shadow transition-left duration-300 ease-in-out`}
+          className={` flex flex-col justify-between  bottom-0 screen ${open ? "hidden" : "block"} bg-white  transition-left duration-300 ease-in-out`}
         >
           <div className="px-4 py-6 pos">
             <span className="grid rounded-full w-28 h-28 place-content-center bg-gray-100 text-xs text-gray-600">
