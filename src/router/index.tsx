@@ -11,7 +11,6 @@ import LoginPage from "../pages/Login";
 import HomePage from "../pages";
 import Allcourses from "../pages/Allcourses";
 import CourseDeateailse from "../pages/courseDeateailse";
-import AccessStudent from "../pages/AccessStudent";
 import Cookies from "js-cookie";
 import Coursesuser from "../pages/CoursesUser";
 import AddExam from "../pages/AddExam";
@@ -49,7 +48,7 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           index
           element={
             <ProtectedRoute
@@ -61,7 +60,7 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-          <Route
+        <Route
           path="allcourses"
           element={
             <ProtectedRoute
@@ -73,18 +72,7 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-             <Route
-          path="accessstudent"
-          element={
-            <ProtectedRoute
-              isAllowed={isTokenExists}
-              redirectPath="/login"
-              data={token}
-            >
-              <AccessStudent />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="addexam"
           element={
@@ -97,7 +85,6 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-
 
         <Route path="viwdeatels">
           <Route
@@ -141,9 +128,8 @@ const router = createBrowserRouter(
               </ProtectedRoute>
             }
           />
-
         </Route>
-        
+
         <Route path="deatels">
           <Route
             path={":examId"}
@@ -186,8 +172,6 @@ const router = createBrowserRouter(
             }
           />
         </Route>
-         
-   
 
         <Route
           path="quize"
@@ -217,8 +201,6 @@ const router = createBrowserRouter(
           />
         </Route>
       </Route>
-
-
 
       {/* Page Not Found */}
       <Route path="*" element={<PageNotFound />} />

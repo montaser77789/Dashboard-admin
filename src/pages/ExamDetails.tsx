@@ -46,15 +46,15 @@ const ExamDetails = () => {
         <>
           <div
             key={question._id}
-            className="  border-black border-2 m-2 p-2 hover:shadow-md  rounded-md"
+            className="  border-black border-2 m-2 p-2 hover:shadow-md  rounded-md "
           >
-            <div className="bg-white m-2 p-2 h-20 hover:shadow-md  rounded-md">
+            <div className="bg-white m-2 p-2 min-h-20 hover:shadow-md  rounded-md">
               <h1 className="pb-2 ">
                 <span className="text-[#149eca] font-semibold">Question:</span>
                 {question.question}
               </h1>
 
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                 <div>
                   <span className="text-[#149eca] font-semibold">answer1:</span>{" "}
                   {question.answer_1}
@@ -66,13 +66,13 @@ const ExamDetails = () => {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2 rounded-md">
-              <div className="bg-white w-fit m-2 p-2 h-10 hover:shadow-md rounded-md">
+              <div className="bg-white w-fit m-2 p-2 min-h-10 hover:shadow-md rounded-md">
                 <span className="text-[#149eca] font-semibold">
                   Correct choice:
                 </span>
                 {question.correctBolean}
               </div>
-              <div className="bg-white w-fit m-2 p-2 h-10 hover:shadow-md rounded-md">
+              <div className="bg-white w-fit m-2 p-2 min-h-10 hover:shadow-md rounded-md">
                 <span className="text-[#149eca] font-semibold">Mark:</span>
                 {question.mark}
               </div>
@@ -97,12 +97,12 @@ const ExamDetails = () => {
             key={question._id}
             className="  border-black border-2 m-2 p-2 hover:shadow-md  rounded-md"
           >
-            <div className="bg-white m-2 p-2 h-20 hover:shadow-md ">
+            <div className="bg-white m-2 p-2 min-h-20 hover:shadow-md ">
               <h1 className="pb-2">
                 <span className="text-[#149eca] font-semibold">Question:</span>{" "}
                 {question.question}
               </h1>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                 <div>
                   <span className="text-[#149eca] font-semibold">answer1:</span>{" "}
                   {question.answer_1}
@@ -122,13 +122,13 @@ const ExamDetails = () => {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="bg-white w-fit m-2 p-2 h-10 hover:shadow-md ">
+              <div className="bg-white w-fit m-2 p-2 min-h-10 hover:shadow-md ">
                 <span className="text-[#149eca] font-semibold">
                   Correct choice:
                 </span>{" "}
                 {question.correctChoice}
               </div>
-              <div className="bg-white w-fit m-2 p-2 h-10 hover:shadow-md ">
+              <div className="bg-white w-fit m-2 p-2 min-h-10 hover:shadow-md ">
                 <span className="text-[#149eca] font-semibold">mark:</span>{" "}
                 {question.mark}
               </div>

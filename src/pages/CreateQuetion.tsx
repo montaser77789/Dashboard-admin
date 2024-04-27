@@ -94,7 +94,7 @@ const CreateQuetion = () => {
   const answerOptions: IOption[] = [{ value: "true", label: "true" }, { value: "false", label: "false" }];
 
   return (
-    <div className="lg:w-[100%]">
+    <div className="lg:w-[100%] px-2">
       <div className="flex justify-between mb-4">
         <h2 className="text-2xl font-bold">Create New Question</h2>
       </div>
@@ -109,7 +109,7 @@ const CreateQuetion = () => {
                   setInputValue({ ...inputValue, role: value });
                 }}
                 options={options}
-                className="basic-single w-[50%]"
+                className="basic-single  w-full md:w-[50%]"
                 classNamePrefix="select"
                 name="role"
               />
@@ -167,13 +167,13 @@ const CreateQuetion = () => {
                       const value = e ? e.value : "";
                       setInputValue({ ...inputValue, correctChoice: value });
                     }}
-                    options={inputValue.role === "choice" ? [
+                    options={[
                       { value: "answer_1", label: "answer_1" },
                       { value: "answer_2", label: "answer_2" },
                       { value: "answer_3", label: "answer_3" },
                       { value: "answer_4", label: "answer_4" }
-                    ] : []}
-                    className="basic-single w-[50%]"
+                    ]}
+                    className="basic-single w-full md:w-[50%]"
                     classNamePrefix="select"
                     name="correctChoice"
                   />
@@ -190,7 +190,7 @@ const CreateQuetion = () => {
                       setInputValue({ ...inputValue, answer_1: value });
                     }}
                     options={answerOptions}
-                    className="basic-single w-[50%]"
+                    className="basic-single w-full md:w-[50%]"
                     classNamePrefix="select"
                     name="answer_1"
                   />
@@ -203,7 +203,7 @@ const CreateQuetion = () => {
                       setInputValue({ ...inputValue, answer_2: value });
                     }}
                     options={answerOptions}
-                    className="basic-single w-[50%]"
+                    className="basic-single w-full md:w-[50%]"
                     classNamePrefix="select"
                     name="answer_2"
                   />
@@ -219,7 +219,7 @@ const CreateQuetion = () => {
                       { value: "answer_1", label: "answer_1" },
                       { value: "answer_2", label: "answer_2" }
                     ]}
-                    className="basic-single w-[50%]"
+                    className="basic-single w-full md:w-[50%]"
                     classNamePrefix="select"
                     name="correctBolean"
                   />
@@ -246,5 +246,6 @@ const CreateQuetion = () => {
     </div>
   );
 };
+
 
 export default CreateQuetion;
