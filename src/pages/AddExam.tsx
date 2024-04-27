@@ -78,9 +78,9 @@ const AddExam = () => {
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Create New Exam</h2>
       </div>
-      <form onSubmit={onSubmitHandler}>
-        <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-6">
-          <div className="w-full md:w-[48%] space-y-2">
+      <form  onSubmit={onSubmitHandler}>
+      <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-6">
+          <div className="w-full md:w-[90%] space-y-2">
             <div>
               <label className="font-semibold">Exam Title:</label>
               <Input

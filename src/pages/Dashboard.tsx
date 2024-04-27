@@ -70,15 +70,17 @@ const Dashboard = () => {
       >
         <div className="z-20 ">
           {open ? (
-            <IoCloseSharp
-              className=" mt-3  mx-2  cursor-pointer z-10  text-3xl  "
-              onClick={() => setOpen((prev) => !prev)}
-            />
-          ) : (
+     
             <MdMenu
-              className="  mt-3 mx-2 cursor-pointer z-10  text-3xl "
-              onClick={() => setOpen((prev) => !prev)}
-            />
+            className="  mt-3 mx-2 cursor-pointer z-10  text-3xl "
+            onClick={() => setOpen((prev) => !prev)}
+          />
+          ) : (
+            <IoCloseSharp
+            className=" mt-3  mx-2  cursor-pointer z-10  text-3xl  "
+            onClick={() => setOpen((prev) => !prev)}
+          />
+        
           )}
         </div>
         <div
