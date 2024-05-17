@@ -40,7 +40,7 @@ const CourseCode = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between  w-full">
+    <div className="flex flex-col  w-full">
 
     <div>
     <Button  className=" text-white font-bold py-2 px-4 my-2 rounded" onClick={handleCreatePDF}>

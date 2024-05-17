@@ -29,14 +29,6 @@ const LoginPage = () => {
         data
       );
       Cookies.set("access_token", resData.access_token);
-
-      // const IN_DAYS = 3;
-      // const EXPIRE_IN_DAYS = 1000 * 60 * 60 * 24 * IN_DAYS;
-      // const date = new Date();
-      // date.setTime(date.getTime() + EXPIRE_IN_DAYS);
-      // const options: Ioptions = { path: "/", expires: date };
-      // CookiesServices.set("access_token", resData, options);
-      // CookiesServices.set("user", "", options);
       if (status == 200) {
         successmsg({ msg: `${resData.success}` });
         setTimeout(() => {
