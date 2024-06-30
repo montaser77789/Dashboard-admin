@@ -30,7 +30,7 @@ const Questionbank= () => {
       },
     },
   });
-  const handleDeleteCourse = async (questionId: number) => {
+  const handleDeleteCourse = async (questionId: string) => {
     try {
       setisLoadingDelete(true);
       const res = await axioInstance.delete(
