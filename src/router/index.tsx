@@ -23,7 +23,7 @@ import VidoeCode from "../pages/VideoCode";
 import Addbankquestions from "../pages/Addbankquestions";
 import CreateExamToCourse from "../pages/CreateExamToCourse";
 import Questionbank from "../pages/QuestionBank";
-import QuestionbankSelector from "../pages/questionbankSelector";
+import QuestionbankSelector from "../pages/QuestionbankSelector";
 const token = Cookies.get("access_token");
 const isTokenExists = !!token;
 
