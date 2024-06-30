@@ -13,7 +13,7 @@ const Quizes = () => {
   const [refrchData, setRefrchData] = useState(0);
   const { data, isLoading } = UseAuthenticatedQuery({
     queryKey: [`quizes${refrchData}`],
-    url: "teacher/exam/getallexams",
+    url: "teacher/exam/get_allexams",
     config: {
       headers: {
         Authorization: token,

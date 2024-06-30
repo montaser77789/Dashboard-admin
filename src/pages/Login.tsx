@@ -31,6 +31,8 @@ const LoginPage = () => {
       Cookies.set("access_token", resData.access_token);
       if (status == 200) {
         successmsg({ msg: `${resData.success}` });
+        console.log(resData);
+        
         setTimeout(() => {
           location.replace("/");
         }, 2000);

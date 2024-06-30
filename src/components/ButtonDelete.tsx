@@ -18,7 +18,7 @@ const ButtonDelete = ({
   const onDeleteExam = async (id: string) => {
     setLoadingDelete(true);
     try {
-      const res = await axioInstance.delete(`teacher/exam/deleteexam/${id}`, {
+      const res = await axioInstance.delete(`teacher/exam/delete_exam/${id}`, {
         headers: {
           Authorization: token,
         },

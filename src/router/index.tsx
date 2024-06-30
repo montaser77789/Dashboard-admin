@@ -20,6 +20,10 @@ import TheResulst from "../pages/TheResulst";
 import ExamDetails from "../pages/ExamDetails";
 import CourseCode from "../pages/CourseCode";
 import VidoeCode from "../pages/VideoCode";
+import Addbankquestions from "../pages/Addbankquestions";
+import CreateExamToCourse from "../pages/CreateExamToCourse";
+import Questionbank from "../pages/QuestionBank";
+import QuestionbankSelector from "../pages/questionbankSelector";
 const token = Cookies.get("access_token");
 const isTokenExists = !!token;
 
@@ -196,6 +200,57 @@ const router = createBrowserRouter(
                 data={token}
               >
                 <Coursesuser />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+        <Route
+          path="questionbankselector"
+          element={
+            <ProtectedRoute
+              isAllowed={isTokenExists}
+              redirectPath="/login"
+              data={token}
+            >
+              <QuestionbankSelector />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="questionbank"
+          element={
+            <ProtectedRoute
+              isAllowed={isTokenExists}
+              redirectPath="/login"
+              data={token}
+            >
+              <Questionbank />
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="add-bank-question"
+          element={
+            <ProtectedRoute
+              isAllowed={isTokenExists}
+              redirectPath="/login"
+              data={token}
+            >
+              <Addbankquestions />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route path="createexamtocourse">
+          <Route
+            path={":courseId"}
+            element={
+              <ProtectedRoute
+                isAllowed={isTokenExists}
+                redirectPath="/login"
+                data={token}
+              >
+                <CreateExamToCourse />
               </ProtectedRoute>
             }
           />

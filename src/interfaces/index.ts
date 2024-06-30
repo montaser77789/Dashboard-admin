@@ -23,7 +23,7 @@ export interface IerrorResponse {
 export interface IloginInput {
   placeholder: string;
   name: "email" | "password";
-    type: string;
+  type: string;
   validation: {
     required?: string;
     minLength?: number;
@@ -39,12 +39,12 @@ export interface Iusers {
   courses: string[];
   UniversityName: string;
   CollegesName: string;
-  isBlocked:boolean
-  level:string
+  isBlocked: boolean;
+  level: string;
 }
 export interface Icourses {
   _id?: string;
-  id?:string;
+  id?: string;
   title: string;
   price: string;
   subject: string;
@@ -71,15 +71,23 @@ export interface Iresult {
   result: string;
   course: string;
 }
+
 export interface Iquestion {
-  question: string;
   _id: string;
+  question: string;
   answer_1: string;
   answer_2: string;
   answer_3: string;
   answer_4: string;
   correctChoice: string;
   correctBolean: boolean;
-  mark: number;
   role: string;
+  img: string;
+  mark: string;
+  year: string;
+  __v: number;
+  imgFile?: File | null;
 }
+
+
+

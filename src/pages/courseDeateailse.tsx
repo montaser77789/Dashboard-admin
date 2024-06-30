@@ -182,6 +182,7 @@ const CourseDeateailse = () => {
             >
               Create Code
             </Button>
+          
 
             <Button>
               <NavLink to={`/vidoecode/${video.id}`}> Show Code</NavLink>
@@ -288,6 +289,12 @@ const CourseDeateailse = () => {
           ) : (
             <div className="text-center mt-8 flex justify-evenly items-center">
               <Button onClick={openModalCreate}>Create Code</Button>
+              <Button
+             
+            >
+              <NavLink to={`/createexamtocourse/${idcourse}`}>Create exam</NavLink>
+            
+            </Button>
               <Button>
                 <NavLink to={`/courseCode/${idcourse}`}>Show Code</NavLink>
               </Button>
